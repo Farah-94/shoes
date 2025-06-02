@@ -1,1 +1,1 @@
-web: gunicorn walkease.wsgi --log-file -
+web: gunicorn walkease.wsgi
