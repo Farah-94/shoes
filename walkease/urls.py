@@ -19,7 +19,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('walkease.store.urls')),  # This includes the store URL patterns
+    path('', include('walkease.store.urls')),
+
     path('cart/', include('walkease.cart.urls')),
     path('checkout/', include('walkease.checkout.urls')),
 ]

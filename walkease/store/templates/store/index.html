@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'store/css/style.css' %}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" 
+        integrity="sha512-Fo3rlrZj/k7ujTnH/PRuCJvJSc1l2vwI6rhfUS0ZQ2Bp6k12Xd6zwoNwhWnuCzV7F4LeQthG4iuhf2LBZQ5V5w==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+     <header>
+    <div class="logo">
+      <!-- Replace "logo.png" with your actual logo image if available -->
+      <img src="logo.png" alt="Logo" />
+      <span>Store Logo</span>
+    </div>
+    <div class="header-right">
+      <a href="/cart/">
+        <span class="icon"><i class="fas fa-shopping-cart"></i></span>
+        Cart
+      </a>
+      <a href="/login/">
+        <span class="icon"><i class="fas fa-user"></i></span>
+        Sign In
+      </a>
+    </div>
+  </header>
+  
+  <!-- Discount Slider -->
+  <section class="discount-slider">
+    <div class="slider-text">
+      Big Discounts! Shop Now &nbsp;&bull;&nbsp; Save up to 50%! &nbsp;&bull;&nbsp; Limited time offer! &nbsp;&bull;&nbsp;
+    </div>
+  </section>
+  
+  <!-- Big Image Section -->
+  <section class="big-image">
+    <!-- Replace "big-image.jpg" with your actual featured image -->
+    <img src="big-image.jpg" alt="Featured Product" />
+  </section>
+  
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Your Store. All rights reserved.</p>
+  </footer>
+
+
+</body>
+</html>
