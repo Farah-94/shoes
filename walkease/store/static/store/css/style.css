@@ -94,9 +94,10 @@ header {
   width: 70%;
   height: auto;
   justify-content: center;
+  text-align: center;
 
 }
-.big-image img {
+.back-image img {
   width: 100%;
   height: auto;
   display: block;
