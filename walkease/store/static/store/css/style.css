@@ -93,6 +93,7 @@ header {
   margin: 20px 0;
   width: 70%;
   height: auto;
+  justify-content: center;
 
 }
 .big-image img {
