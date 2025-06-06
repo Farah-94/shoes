@@ -91,8 +91,10 @@ header {
 /* Big Image Section */
 .big-image {
   margin: 20px 0;
-}
+  width: 70%;
+  height: auto;
 
+}
 .big-image img {
   width: 100%;
   height: auto;
