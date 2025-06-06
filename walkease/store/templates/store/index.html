@@ -5,24 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   {% load static %}
   <title>Store</title>
+  <!-- Your custom CSS -->
   <link rel="stylesheet" href="{% static 'store/css/style.css' %}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" 
-        integrity="sha512-Fo3rlrZj/k7ujTnH/PRuCJvJSc1l2vwI6rhfUS0ZQ2Bp6k12Xd6zwoNwhWnuCzV7F4LeQthG4iuhf2LBZQ5V5w==" 
+  <!-- Font Awesome 6.4.0 - update the integrity if needed -->
+  <link rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+        integrity="sha512-gtdU5cJE6L43H4icMpuP6loDmoPHwY7+Aa6Mgx8k5KVoo0FI9wqxY5y1tZxCRc0NwXmyov2P7T8NIKj5x4Uwg==" 
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
   <header>
     <div class="logo">
+      <!-- Ensure your logo.png file is in 'store/gallery/' -->
       <img src="{% static 'store/gallery/logo.png' %}" alt="Logo" />
       <span>Store Logo</span>
     </div>
     <div class="header-right">
       <a href="/cart/">
-        <span class="icon"><i class="fas fa-shopping-cart"></i></span>
+        <span class="icon"><i class="fa-solid fa-cart-shopping"></i></span>
         Cart
       </a>
       <a href="/login/">
-        <span class="icon"><i class="fas fa-user"></i></span>
+        <span class="icon"><i class="fa-solid fa-user"></i></span>
         Sign In
       </a>
     </div>
@@ -45,6 +49,7 @@
 
   <!-- Big Image Section -->
   <section class="big-image">
+    <!-- Ensure 'big-image.jpg' exists in 'store/images/' -->
     <img src="{% static 'store/images/big-image.jpg' %}" alt="Featured Product" />
   </section>
 
@@ -53,6 +58,7 @@
     <p>&copy; 2025 Your Store. All rights reserved.</p>
   </footer>
 
+  <!-- Your custom JavaScript -->
   <script src="{% static 'store/js/script.js' %}"></script>
 </body>
 </html>
