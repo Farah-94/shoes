@@ -90,18 +90,20 @@ header {
 
 /* Big Image Section */
 .big-image {
-  margin: 20px 0;
-  width: 70%;
-  height: auto;
-  justify-content: center;
-  text-align: center;
+  margin: 20px auto;   /* Centers the section horizontally */
+  width: 70%;          /* Adjust the width as needed */
+  text-align: center;  /* Centers inline or inline-block content within the section */
+}
 
+/* Style for the image (with class back-image) inside the big-image section */
+.big-image .back-image {
+  width: 100%;         /* The image takes the full width of its container */
+  height: auto;        /* Maintain aspect ratio */
+  display: block;      /* Make the image a block element */
+  margin: 0 auto;      /* Centers the block-level image within its container */
 }
-.back-image img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
+
+
 
 /* Footer Styles */
 footer {
