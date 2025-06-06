@@ -22,4 +22,7 @@ urlpatterns = [
     path('', include('walkease.store.urls')),
     path('cart/', include('walkease.cart.urls')),
     path('checkout/', include('walkease.checkout.urls')),
+    path('', include('walkease.store.urls', namespace='store')),
+
+
 ]
