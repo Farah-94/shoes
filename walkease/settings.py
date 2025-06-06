@@ -40,8 +40,16 @@ INSTALLED_APPS = [
     'walkease.store',  # Full path since it's inside walkease
     'walkease.cart',
     'walkease.checkout',
-]
+     # Required for django-allauth
+    'django.contrib.sites',
 
+    # allauth apps
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount', 
+
+]
+SITE_ID = 1
 
 
 MIDDLEWARE = [
@@ -136,3 +144,22 @@ STATIC_URL = '/static/'
 
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',  # default django auth
+    'allauth.account.auth_backends.AuthenticationBackend',  # django-allauth backend
+)
+
+# Django Allauth Settings
+
+# Require email verification (optional)
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_REQUIRED = True
+
+# Redirect URLs (adjust as needed)
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+
+# Other optional settings:
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"  # Allow sign in via username or email
+ACCOUNT_USERNAME_REQUIRED = True
