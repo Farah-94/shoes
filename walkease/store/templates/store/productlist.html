@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'store/css/style.css' %}">
+</head>
+<body>
+<header>
+    <h1 class="heading">Products</h1>
+<a href="{% url 'store:index' %}" class="back-button">Go Back</a>
+    </header>
+
+<div class="product-container">
+    {% for product in products %}
+        <!-- <a href="{% url 'store:buy_product' product.id %}" class="product-link"> -->
+            <div class="product-card">
+                <h2>{{ product.name }}</h2>
+              
+                
+                <!-- Product Image -->
+   <img src="{% static 'store/gallery/webfront.png' %}" alt="Product 1">
+  <p>{{ product.description }}</p>
+                
+            </div>
+        </a>
+    {% empty %}
+        <p>No products available.</p>
+    {% endfor %}
+
+
+
+</div>
+
+
+
+
+</body>
+</html>
