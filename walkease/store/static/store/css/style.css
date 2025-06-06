@@ -96,7 +96,7 @@ header {
 }
 
 /* Style for the image (with class back-image) inside the big-image section */
-.big-image .back-image {
+.back-image {
   width: 100%;         /* The image takes the full width of its container */
   height: auto;        /* Maintain aspect ratio */
   display: block;      /* Make the image a block element */
