@@ -88,19 +88,76 @@ header {
   right: 10px;
 }
 
-/* Big Image Section */
+/* Ensure the big-image section is relatively positioned */
 .big-image {
-  margin: 20px auto;   /* Centers the section horizontally */
-  width: 70%;          /* Adjust the width as needed */
-  text-align: center;  /* Centers inline or inline-block content within the section */
+  margin: 20px auto;
+  width: 70%;
+  text-align: center;
+  position: relative; /* Required for absolute positioning of nav */
 }
 
-/* Style for the image (with class back-image) inside the big-image section */
-.back-image {
-  width: 100%;         /* The image takes the full width of its container */
-  height: auto;        /* Maintain aspect ratio */
-  display: block;      /* Make the image a block element */
-  margin: 0 auto;      /* Centers the block-level image within its container */
+/* Style for the big image */
+.big-image .back-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Navigation overlay on top of the big image */
+.big-image-nav {
+  position: absolute;
+  top: 20px;     /* Adjust the top and left offsets as needed */
+  left: 20px;
+  background: rgba(255, 255, 255, 0.8);  /* A semi-transparent background for readability */
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+
+/* Navigation menu styling */
+.big-image-nav .nav-menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.big-image-nav .nav-menu li {
+  display: inline-block;
+  margin-right: 15px;
+  position: relative;
+}
+
+.big-image-nav .nav-menu li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Dropdown styling */
+.big-image-nav .dropdown-content {
+  display: none;
+  position: absolute;
+  background: #fff;
+  min-width: 150px;
+  z-index: 1000;
+  padding: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.big-image-nav .dropdown-content a {
+  display: block;
+  padding: 8px 10px;
+  color: #333;
+  text-decoration: none;
+}
+
+.big-image-nav .dropdown-content a:hover {
+  background-color: #f4f4f4;
+}
+
+/* Show dropdown on hover */
+.big-image-nav .dropdown:hover .dropdown-content {
+  display: block;
 }
 
 
