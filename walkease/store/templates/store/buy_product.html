@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'store/css/style.css' %}">
+</head>
+
+<body>
+
+<header>
+    <h1 class="heading">Products Details</h1>
+<a href="{% url 'store:product_list' %}" class="back-button">Go Back</a>
+    </header>
+
+
+  <div class="product-details">
+   
+    <p>Here you can view the product details and add it to your cart.</p>
+<br>
+    <h1><strong><em>{{ product.name }}</em></strong></h1>
+
+    <div class="product-slider">
+      <div class="product-slides">
+        <!-- Main Image -->
+        <img src="{% static 'store/images/products/tshirt.jpg' %}" alt="T-shirt">
+      </div>
+    </div>
+
+    <p>Price: ${{ product.price }}</p>
+
+    <form class="buy-form" method="post" action="{% url 'store:add_to_cart' product.id %}">
+    {% csrf_token %}
+    <!-- Quantity -->
+    <label>Quantity:</label>
+    <input type="number" name="quantity" min="1" max="10" value="1" placeholder="Enter quantity" title="Quantity">
+
+    <!-- Sizes -->
+    <label>Size:</label>
+    <select name="size" title="Select a size">
+        <option value="S">Small</option>
+        <option value="M">Medium</option>
+        <option value="L">Large</option>
+    </select>
+
+    <br><br>
+    <button type="submit">Add to Cart</button>
+</form>
+
+
+
+    
+
+  </div>
+
+  <script src="{% static 'store/js/script.js' %}" defer></script>
+</body>
+
+</html>
