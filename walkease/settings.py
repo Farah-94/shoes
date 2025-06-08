@@ -36,15 +36,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Project apps
-    "walkease.store",  # ✅ Store app must be registered here
-    "walkease.cart",
-    "walkease.checkout",
+     'walkease.store.apps.StoreConfig',
+     'walkease.cart.apps.CartConfig',
+     'walkease.checkout.apps.CheckoutConfig',
 
-    # Required for django-allauth
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
+     # Required for django-allauth
+     'django.contrib.sites',
+     'allauth',
+     'allauth.account',
+     'allauth.socialaccount',
 ]
 
 SITE_ID = 1
@@ -122,7 +122,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # Django Allauth Settings
-ACCOUNT_AUTHENTICATION_METHOD = "username_email"  # ✅ Allows login via username OR email
+ACCOUNT_LOGIN_METHODS = {'username', 'email'}  # New setting replacing ACCOUNT_AUTHENTICATION_METHOD
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_SIGNUP_FIELDS = ['email', 'username', 'password1', 'password2']
 
