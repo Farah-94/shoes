@@ -122,8 +122,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # Django Allauth Settings
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_LOGIN_METHODS = ('username', 'email')  # Use a tuple rather than a set
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_SIGNUP_FIELDS = ['email', 'username', 'password1', 'password2']
 
