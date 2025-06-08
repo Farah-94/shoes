@@ -23,11 +23,12 @@ class Product(models.Model):
         return self.name
 
 
+from django.apps import apps  # ✅ Import apps for dynamic model loading
+
 class CartItem(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(apps.get_model("store", "Product"), on_delete=models.CASCADE)  # ✅ Use dynamic model loading
+    user = models.ForeignKey("auth.User", on_delete=models.CASCADE)  # ✅ Use string reference for User
+    product = models.ForeignKey("store.Product", on_delete=models.CASCADE)  # ✅ Use string reference instead of direct import
     quantity = models.PositiveIntegerField(default=1)
-    size = models.CharField(max_length=1, choices=[('S','Small'), ('M','Medium'), ('L','Large')])
     added_at = models.DateTimeField(auto_now_add=True)
 
     @property
@@ -36,6 +37,8 @@ class CartItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity}x {self.product.name}"
+
+
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
