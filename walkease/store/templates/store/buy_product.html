@@ -3,46 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product Details</title>
+  <title>Buy Product</title>
   {% load static %}
   <link rel="stylesheet" href="{% static 'store/css/style.css' %}">
 </head>
 <body>
 
 <header>
-    <h1 class="heading">Product Details</h1>
-    <a href="{% url 'store:product_list' %}" class="back-button">Go Back</a>
+    <h1 class="heading">Buy Product</h1>
+    <nav class="breadcrumb">
+        <a href="{% url 'store:index' %}">Home</a> >
+        <a href="{% url 'store:product_list' %}">Products</a> >
+        <span>{{ product.name }}</span>
+    </nav>
 </header>
 
 <div class="product-details">
     <h1><strong><em>{{ product.name }}</em></strong></h1>
+
     <div class="product-slider">
         <div class="product-slides">
-            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" onclick="zoomImage(this)">
         </div>
     </div>
-    <p>Price: ${{ product.price }}</p>
+
+    <p><strong>Price:</strong> ${{ product.price }}</p>
 
     {% if product.stock > 0 %}
         <form class="buy-form" method="post" action="{% url 'store:add_to_cart' product.id %}">
             {% csrf_token %}
-            <label>Quantity:</label>
-            <input type="number" name="quantity" min="1" max="{{ product.stock }}" value="1" placeholder="Enter quantity" title="Quantity">
+            
+            <label for="quantity-input">Quantity:</label>
+            <input type="number" id="quantity-input" name="quantity" min="1" max="{{ product.stock }}" value="1" placeholder="Enter quantity">
 
-            <label for="size-select">Size:</label>
+            <label for="size-select">Choose Size:</label>
             <select name="size" id="size-select">
-                <option value="S">Small</option>
-                <option value="M">Medium</option>
-                <option value="L">Large</option>
+                <option value="6">Size 6</option>
+                <option value="7">Size 7</option>
+                <option value="8">Size 8</option>
+                <option value="9">Size 9</option>
+                <option value="10">Size 10</option>
             </select>
 
             <button type="submit">Add to Cart</button>
         </form>
     {% else %}
-        <p class="out-of-stock">Sorry, this product is out of stock.</p>
+        <p class="out-of-stock"><strong>Sorry, this product is out of stock.</strong></p>
     {% endif %}
 </div>
 
+
+<a href="{% url 'cart:view_cart' %}" class="view-cart-button">View Cart</a>
+
+
+
+<script>
+    function zoomImage(image) {
+        window.open(image.src, "_blank");
+    }
+</script>
 <script src="{% static 'store/js/script.js' %}" defer></script>
+
 </body>
 </html>

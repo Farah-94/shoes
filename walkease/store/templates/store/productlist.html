@@ -15,18 +15,18 @@
 
 <div class="product-container">
     {% for product in products %}
-        <a href="{% url 'store:product_detail' product.id %}" class="product-link">
-            <div class="product-card">
-                <h2>{{ product.name }}</h2>
-                <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                <p>{{ product.description }}</p>
-                <p>Price: ${{ product.price }}</p>
-                <p>{% if product.stock > 0 %} In Stock {% else %} Out of Stock {% endif %}</p>
-            </div>
-        </a>
-    {% empty %}
-        <p>No products available.</p>
-    {% endfor %}
+    <a href="{% url 'store:buy_product' product.id %}" class="product-link">
+        <div class="product-card">
+            <h2>{{ product.name }}</h2>
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <p>{{ product.description }}</p>
+            <p>Price: ${{ product.price }}</p>
+        </div>
+    </a>
+{% empty %}
+    <p>No products available.</p>
+{% endfor %}
+
 </div>
 </body>
 </html>
