@@ -36,9 +36,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Project apps
-    'walkease.store',
-    'walkease.cart',
-    'walkease.checkout',
+    "walkease.store",  # ✅ Store app must be registered here
+    "walkease.cart",
+    "walkease.checkout",
 
     # Required for django-allauth
     'django.contrib.sites',
