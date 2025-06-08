@@ -9,8 +9,10 @@ from django.urls import reverse
 from store.models import Product  # Import the Product model
 from cart.models import CartItem  # Import the CartItem model
 
+
+
 def cart_view(request):
-    return HttpResponse("This is the cart page.")
+    return render(request, 'cart/cart.html')  # ✅ Render the correct cart page
 
 def signup(request):
     if request.method == "POST":
