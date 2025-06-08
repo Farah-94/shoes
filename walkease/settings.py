@@ -144,15 +144,19 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# Define the base directory using Pathlib
 from pathlib import Path
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATIC_URL = '/static/'
+# Static files settings
+STATIC_URL = '/static/'  # This MUST be defined
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # Ensures collectstatic works properly
 
-
+# Enable Whitenoise for serving static files on Heroku
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',  # default django auth

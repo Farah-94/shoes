@@ -1,0 +1,185 @@
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #fff;
+  color: #333;
+}
+
+/* Header Styles */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  background-color: #f4f4f4;
+  border-bottom: 1px solid #ddd;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  height: 50px; /* Adjust as needed */
+  margin-right: 10px;
+}
+
+.header-right a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+}
+
+.header-right a .icon {
+  margin-right: 8px;
+}
+
+/* Discount Slider Styles */
+.slider-container {
+  position: relative;
+  overflow: hidden;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.slider-container .slide {
+  display: none; /* Hide all slides by default */
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  padding: 10px;
+}
+
+.slider-container .slide.active {
+  display: block;
+  opacity: 1;
+}
+
+/* Slider Button Styles */
+.slider-container button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.6);
+  border: none;
+  color: #fff;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#prev {
+  left: 10px;
+}
+
+#next {
+  right: 10px;
+}
+
+/* Ensure the big-image section is relatively positioned */
+.big-image {
+  margin: 20px auto;
+  width: 70%;
+  text-align: center;
+  position: relative; /* Required for absolute positioning of nav */
+}
+
+/* Style for the big image */
+.big-image .back-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Navigation overlay on top of the big image */
+.big-image-nav {
+  position: absolute;
+  top: 20px;     /* Adjust the top and left offsets as needed */
+  left: 20px;
+  background: rgba(255, 255, 255, 0.8);  /* A semi-transparent background for readability */
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+
+/* Navigation menu styling */
+.big-image-nav .nav-menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.big-image-nav .nav-menu li {
+  display: inline-block;
+  margin-right: 15px;
+  position: relative;
+}
+
+.big-image-nav .nav-menu li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Dropdown styling */
+.big-image-nav .dropdown-content {
+  display: none;
+  position: absolute;
+  background: #fff;
+  min-width: 150px;
+  z-index: 1000;
+  padding: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.big-image-nav .dropdown-content a {
+  display: block;
+  padding: 8px 10px;
+  color: #333;
+  text-decoration: none;
+}
+
+.big-image-nav .dropdown-content a:hover {
+  background-color: #f4f4f4;
+}
+
+/* Show dropdown on hover */
+.big-image-nav .dropdown:hover .dropdown-content {
+  display: block;
+}
+
+
+
+/* Footer Styles */
+footer {
+  background-color: #f4f4f4;
+  padding: 20px 0;
+  text-align: center;
+  border-top: 1px solid #ddd;
+}
+
+/* Responsive adjustments (optional) */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+  }
+  .header-right {
+    margin-top: 10px;
+  }
+  .slider-container button {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+}
