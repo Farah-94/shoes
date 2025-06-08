@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render, get_object_or_404
-from walkease.store.models import Product, Category
+from walkease.store.models import Product, Category, Order
 from django.http import HttpResponse
 
 

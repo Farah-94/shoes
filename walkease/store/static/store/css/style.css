@@ -361,3 +361,84 @@ footer {
 }
 
 
+/* ----buyproduct---- */
+
+.product-details {
+    width: 50%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+/* Product Name */
+.product-details h1 {
+    text-align: center;
+    font-size: 24px;
+    color: #531932;
+}
+
+/* Product Image Slider */
+.product-slider {
+    position: relative;
+    text-align: center;
+}
+
+.product-slides img {
+    width: 100%;
+    max-height: 400px;
+    border-radius: 5px;
+}
+
+
+
+
+/* Form Styles */
+form {
+    text-align: center;
+}
+
+form label {
+    display: block;
+    margin-top: 10px;
+}
+
+form input, form select {
+    padding: 5px;
+    margin: 5px 0;
+}
+
+.buy-form button[type="submit"] {
+    background: #0073e6;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background: #005bb5;
+}
+
+
+.back-button {
+    display: inline-block;
+  left:10px;
+    padding: 10px 15px;
+    background-color: #3e2235;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #5b4f56;
+
+}
