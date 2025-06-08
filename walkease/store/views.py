@@ -3,7 +3,9 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.apps import apps
-from .models import Category, Order 
+from .models import Order  # ✅ Removed Category, using relative import
+
+
 
 
 Product = apps.get_model("store", "Product")  # ✅ Dynamic Model Loading
@@ -24,9 +26,7 @@ def get_product_detail(request, product_id):
 
 def product_list(request):
     """ Displays products, filtered by category if selected """
-    category_name = request.GET.get("category")
 
-    category = Category.objects.filter(name__iexact=category_name).first() if category_name else None
     products = Product.objects.filter(category=category) if category else Product.objects.all()
 
     return render(request, "store/productlist.html", {"products": products, "category": category_name})
