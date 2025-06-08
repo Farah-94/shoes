@@ -5,34 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   {% load static %}
   <title>Store</title>
-  <!-- Your custom CSS -->
   <link rel="stylesheet" href="{% static 'store/css/style.css' %}">
-  <!-- Font Awesome 6.4.0 - update the integrity if needed -->
   <link rel="stylesheet" 
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-gtdU5cJE6L43H4icMpuP6loDmoPHwY7+Aa6Mgx8k5KVoo0FI9wqxY5y1tZxCRc0NwXmyov2P7T8NIKj5x4Uwg==" 
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
   <header>
     <div class="logo">
-      <!-- Ensure your logo.png file is in 'store/gallery/' -->
-<img src="{% static 'store/gallery/logo.png' %}" alt="Logo">    
+      <img src="{% static 'store/gallery/logo.png' %}" alt="Logo">    
     </div>
     <div class="header-right">
-      <a href="/cart/">
-        <span class="icon"><i class="fa-solid fa-cart-shopping"></i></span>
-        Cart
+      <a href="{% url 'store:cart' %}">
+        <i class="fa-solid fa-cart-shopping"></i> Cart
       </a>
-      <a href="/login/">
-        <span class="icon"><i class="fa-solid fa-user"></i></span>
-        Sign In
-      </a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'store:profile' %}">
+          <i class="fa-solid fa-user"></i> Profile
+        </a>
+      {% else %}
+        <a href="{% url 'login' %}">
+          <i class="fa-solid fa-user"></i> Sign In
+        </a>
+      {% endif %}
     </div>
-
   </header>
 
-  <!-- Discount Slider -->
   <div class="slider-container">
     <div class="slide active">
       <p>Big Discounts! Shop Now!</p>
@@ -43,63 +42,33 @@
     <div class="slide">
       <p>Limited time offer!</p>
     </div>
-    <button id="prev">Prev</button>
-    <button id="next">Next</button>
   </div>
 
- 
-  <!-- <section class="big-image">
-    <img class="back-image"  src="{% static 'store/gallery/webfront.png' %}" alt="Featured Product" />
-  </section> -->
-
- <!-- Big Image Section with Nav Overlay in Top-Left -->
   <section class="big-image">
-
     <nav class="big-image-nav">
       <ul class="nav-menu">
         <li class="dropdown">
-          <a href="#" class="dropbtn">
-            Products <i class="fa-solid fa-caret-down"></i>
-          </a>
-          <div class="dropdown-content">
-            <a href="{% url 'store:productlist' %}">Product List</a>
-          </div>
+          <a href="{% url 'store:productlist' %}">Products <i class="fa-solid fa-caret-down"></i></a>
         </li>
-        <!-- Conditional rendering: if the user is authenticated, show Profile; else, Sign In -->
         {% if user.is_authenticated %}
           <li class="dropdown">
-            <a href="#" class="dropbtn">
-              Profile <i class="fa-solid fa-caret-down"></i>
-            </a>
+            <a href="#" class="dropbtn">Profile <i class="fa-solid fa-caret-down"></i></a>
             <div class="dropdown-content">
-              <a href="{% url 'order-tracking' %}">Order Tracking</a>
-              <a href="{% url 'previous-orders' %}">Previous Orders</a>
-              <a href="{% url 'user-details' %}">User Details</a>
+              <a href="{% url 'store:order-tracking' %}">Order Tracking</a>
+              <a href="{% url 'store:previous-orders' %}">Previous Orders</a>
+              <a href="{% url 'store:user-details' %}">User Details</a>
             </div>
-          </li>
-        {% else %}
-          <li>
-            <a href="{% url 'login' %}">Sign In</a>
           </li>
         {% endif %}
       </ul>
     </nav>
-    <!-- Big image -->
     <img class="back-image" src="{% static 'store/images/big-image.jpg' %}" alt="Featured Product">
   </section>
 
-
-
-
-
-
-
-  <!-- Footer -->
   <footer>
     <p>&copy; 2025 Your Store. All rights reserved.</p>
   </footer>
 
-  <!-- Your custom JavaScript -->
-  <script src="{% static 'store/js/script.js' %}"></script>
+  <script src="{% static 'store/js/script.js' %}" defer></script>
 </body>
 </html>

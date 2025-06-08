@@ -10,32 +10,23 @@
 <body>
 <header>
     <h1 class="heading">Products</h1>
-<a href="{% url 'store:index' %}" class="back-button">Go Back</a>
-    </header>
+    <a href="{% url 'store:index' %}" class="back-button">Go Back</a>
+</header>
 
 <div class="product-container">
     {% for product in products %}
-        <!-- <a href="{% url 'store:buy_product' product.id %}" class="product-link"> -->
+        <a href="{% url 'store:product_detail' product.id %}" class="product-link">
             <div class="product-card">
                 <h2>{{ product.name }}</h2>
-              
-                
-                <!-- Product Image -->
-   <img src="{% static 'store/gallery/webfront.png' %}" alt="Product 1">
-  <p>{{ product.description }}</p>
-                
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                <p>{{ product.description }}</p>
+                <p>Price: ${{ product.price }}</p>
+                <p>{% if product.stock > 0 %} In Stock {% else %} Out of Stock {% endif %}</p>
             </div>
         </a>
     {% empty %}
         <p>No products available.</p>
     {% endfor %}
-
-
-
 </div>
-
-
-
-
 </body>
 </html>

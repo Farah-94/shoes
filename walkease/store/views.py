@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.apps import apps
-from walkease.store.models import Category, Order
+from .models import Category, Order 
+
 
 Product = apps.get_model("store", "Product")  # ✅ Dynamic Model Loading
 
