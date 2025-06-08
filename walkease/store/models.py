@@ -25,20 +25,6 @@ class Product(models.Model):
 
 from django.apps import apps  # ✅ Import apps for dynamic model loading
 
-class CartItem(models.Model):
-    user = models.ForeignKey("auth.User", on_delete=models.CASCADE)  # ✅ Use string reference for User
-    product = models.ForeignKey("store.Product", on_delete=models.CASCADE)  # ✅ Use string reference instead of direct import
-    quantity = models.PositiveIntegerField(default=1)
-    added_at = models.DateTimeField(auto_now_add=True)
-
-    @property
-    def total_price(self):
-        return self.product.price * self.quantity
-
-    def __str__(self):
-        return f"{self.quantity}x {self.product.name}"
-
-
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
