@@ -11,6 +11,15 @@ def index(request):
     """ Homepage view """
     return render(request, "store/index.html")
 
+from django.apps import apps
+
+def get_product_detail(request, product_id):
+    Product = apps.get_model("store", "Product")  # ✅ Dynamic model fetching
+    product = get_object_or_404(Product, id=product_id)
+    return render(request, "store/product_detail.html", {"product": product})
+
+
+
 
 def product_list(request):
     """ Displays products, filtered by category if selected """
