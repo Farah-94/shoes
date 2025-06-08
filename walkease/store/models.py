@@ -8,7 +8,7 @@ from django.db import models
 
 class Product(models.Model):
     class Meta:
-        app_label = "store"  # ✅ Ensures Django recognizes this app correctly
+        app_label = "walkease.store"  # ✅ Ensures Django recognizes this app correctly
 
     name = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -23,7 +23,7 @@ class Product(models.Model):
 
 class Order(models.Model):
     class Meta:
-        app_label = "store"  # ✅ Explicit app label prevents conflicting models
+        app_label = "walkease.store"  # ✅ Explicit app label prevents conflicting models
 
     user = models.ForeignKey("auth.User", on_delete=models.CASCADE)
     items = models.ManyToManyField("cart.CartItem")  # ✅ Referencing by string

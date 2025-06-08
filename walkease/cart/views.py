@@ -6,7 +6,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import LoginView
 from django.urls import reverse
-from store.models import Product
+from walkease.store.models import Product  # ✅ Ensures correct model reference
+
 from cart.models import CartItem
 
 
