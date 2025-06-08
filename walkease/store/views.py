@@ -1,8 +1,11 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ValidationError  # ✅ Import validation
-from walkease.store.models import Product, Category, Order
+from django.core.exceptions import ValidationError
+from django.apps import apps
+from walkease.store.models import Category, Order
+
+Product = apps.get_model("store", "Product")  # ✅ Dynamic Model Loading
 
 def index(request):
     """ Homepage view """
@@ -17,6 +20,12 @@ def product_list(request):
     products = Product.objects.filter(category=category) if category else Product.objects.all()
 
     return render(request, "store/productlist.html", {"products": products, "category": category_name})
+
+
+def get_product_detail(request, product_id):
+    """ Retrieves product details """
+    product = get_object_or_404(Product, id=product_id)
+    return render(request, "store/product_detail.html", {"product": product})
 
 
 @login_required
