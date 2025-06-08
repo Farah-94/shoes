@@ -183,184 +183,6 @@ footer {
     padding: 8px 12px;
   }
 }
-
-
-
-
-/* -------cart------- */
-/* Cart Page Styles */
-/* Cart Page Flexbox Styles */
-.cart-container {
-    display: flex;
-    flex-direction: row; /* Ensures horizontal alignment */
-    gap: 20px;
-    justify-content: flex-start; /* Aligns items from left to right */
-    max-width: 100%;
-    overflow-x: auto; /* Allows scrolling if items overflow */
-    padding: 10px;
-
-
-}
-
-.cart-item {
-
-    display: flex;
-    align-items: center;
-    background: #ffffff;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    min-width: 280px; /* Ensures consistent width */
-    flex-shrink: 0; /* Prevents items from shrinking */
-    
-}
-
-.cart-item img {
-    width: 80px;
-    height: auto;
-    border-radius: 5px;
-    margin-right: 10px;
-}
-
-.cart-details {
-    text-align: left;
-}
-
-.cart-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-/* Scoped button styles to prevent conflicts */
-.cart-actions a,
-.remove-btn,
-.back-btn,
-.checkout-btn {
-    font-size: 14px;
-    padding: 5px 10px;
-    border-radius: 5px;
-    text-decoration: none;
-  
-}
-
-.remove-btn {
-    color: white;
-    background-color: #782347;
-}
-
-.back-btn {
-    color: white;
-    background-color:#782347;
-}
-.checkout-btn{
-    background-color: #782347;
-    color: white;
-}
-
-
-.checkout-btn .back-btn:hover {
-    background-color: rgb(100, 78, 102);
-    color: black;
-}
-
-.cart-container a:hover {
-    opacity: 0.8;
-}
-
-/* --------signin/signup-------------- */
-
-.signin-body  .signup.bodyy{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Signup & Signin Forms */
-.signup-form-container, .signin-form-container {
-    background-color: #fff;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 350px;
-    text-align: center;
-}
-
-/* Headings */
-.signup-form-container h1, .signin-form-container h1 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-/* Labels & Inputs */
-.signup-form-container label, .signin-form-container label {
-    display: block;
-    margin: 10px 0 5px;
-    font-size: 14px;
-    color: #555;
-}
-
-.signup-form-container input, .signin-form-container input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 12px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-/* Buttons */
-.signup-form-container button, .signin-form-container button {
-    background-color: #5c67f2;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    width: 100%;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-}
-
-.signup-form-container button:hover, .signin-form-container button:hover {
-    background-color: #4854c8;
-}
-.messages {
-    list-style-type: none;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
-    font-size: 16px;
-    display: block !important;
-    visibility: visible !important;
-}
-
-.messages li {
-    padding: 8px;
-    margin-bottom: 5px;
-    border-radius: 4px;
-}
-
-.messages .success {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-}
-
-.messages .warning {
-    background-color: #fff3cd;
-    color: #856404;
-    border: 1px solid #ffeeba;
-}
-
-.messages .error {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-}
-
-
 /* ----buyproduct---- */
 
 .product-details {
@@ -442,3 +264,51 @@ button[type="submit"]:hover {
     background-color: #5b4f56;
 
 }
+/* --------------------productlist----------------------- */ */
+.product-container {
+    padding: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* ✅ Centers content */
+    gap: 20px; /* ✅ Adds space between cards */
+}
+
+.heading{
+    text-align: center;
+    color: #531932;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.product-card {
+    width: 250px; /* ✅ Sets consistent card width */
+    padding: 15px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.product-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+.product-link {
+    text-decoration: none; /* ✅ Removes underline */
+    color: inherit; /* ✅ Keeps text color normal */
+    display: block; /* ✅ Makes the whole card clickable */
+}
+
+.product-card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.product-card:hover {
+    transform: scale(1.05); /* ✅ Adds a hover effect */
+}
+
+
+
+
+

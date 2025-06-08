@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'store/css/style.css' %}">
-</head>
+<link rel="stylesheet" href="{% static 'cart/style.css' %}"></head>
 <body>
     <header>
         <h1>Sign In</h1>
@@ -22,7 +21,7 @@
     </div>
 {% endif %}
 
- <form method="POST" action="{% url 'store:signin' %}">
+ <form method="POST" action="{% url 'cart:signin' %}">
     {% csrf_token %}
     
     <label for="username">Username:</label>
@@ -34,7 +33,7 @@
     <button type="submit">Sign In</button>
 </form>
 
-<p>Don't have an account? <a href="{% url 'store:signup' %}">Sign Up</a></p>
+<p>Don't have an account? <a href="{% url 'cart:signup' %}">Sign Up</a></p>
     </main>
 </body>
 </html>
