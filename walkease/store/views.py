@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.apps import apps
-from .models import Order  # ✅ Removed Category, using relative import
+from .models import Product, Order  # ✅ Removed Category, using relative import
 
 
 

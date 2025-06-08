@@ -4,11 +4,11 @@ from django.db import models
 
 
 
-from django.db import models
+
 
 class Product(models.Model):
     class Meta:
-        app_label = "store"  # ✅ Explicitly set the app label
+        app_label = "store"  # ✅ Ensures Django recognizes this app correctly
 
     name = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2)
