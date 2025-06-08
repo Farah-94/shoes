@@ -18,13 +18,10 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('accounts/', include('allauth.urls')),
+    path("admin/", admin.site.urls),
+    path("accounts/", include("allauth.urls")),
 
-    path('', include('walkease.store.urls')),
-    path('cart/', include('walkease.cart.urls')),
-    path('checkout/', include('walkease.checkout.urls')),
-    path('', include('walkease.store.urls', namespace='store')),
-
-
+    path("", include(("walkease.store.urls", "store"), namespace="store")),  # ✅ Fix duplicate issue
+    path("cart/", include("walkease.cart.urls")),
+    path("checkout/", include("walkease.checkout.urls")),
 ]

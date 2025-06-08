@@ -1,8 +1,8 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required  # ✅ Ensures login protection
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError  # ✅ Import validation
 from walkease.store.models import Product, Category, Order
-
 
 def index(request):
     """ Homepage view """
@@ -13,11 +13,8 @@ def product_list(request):
     """ Displays products, filtered by category if selected """
     category_name = request.GET.get("category")
 
-    if category_name:
-        category = Category.objects.filter(name__iexact=category_name).first()
-        products = Product.objects.filter(category=category) if category else Product.objects.none()
-    else:
-        products = Product.objects.all()
+    category = Category.objects.filter(name__iexact=category_name).first() if category_name else None
+    products = Product.objects.filter(category=category) if category else Product.objects.all()
 
     return render(request, "store/productlist.html", {"products": products, "category": category_name})
 
@@ -28,7 +25,14 @@ def buy_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
     if request.method == "POST":
-        quantity = int(request.POST.get("quantity", 1))
+        quantity = request.POST.get("quantity", 1)
+
+        try:
+            quantity = int(quantity)
+            if quantity < 1:
+                raise ValidationError("Quantity must be at least 1.")
+        except ValueError:
+            return HttpResponse("Invalid quantity.", status=400)
 
         order = Order.objects.create(
             user=request.user,

@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import index, product_list, buy_product
+from . import views  # ✅ Simplified import
 
-app_name = 'store'  # This sets a namespace for your store app URLs
+app_name = "store"  # ✅ Ensures namespace for URL resolution
 
 urlpatterns = [
-    path('', index, name='index'),
-    path('products/', product_list, name='productlist'),
-    path('buy/<int:product_id>/', buy_product, name='buy_product'),
+    path("", views.index, name="index"),  # Homepage
+    path("products/", views.product_list, name="productlist"),  # Product list
+    path("buy/<int:product_id>/", views.buy_product, name="buy_product"),  # Purchase functionality
 ]
