@@ -57,13 +57,13 @@
 
     <nav class="big-image-nav">
       <ul class="nav-menu">
-        <!-- Dropdown for Products -->
         <li class="dropdown">
           <a href="#" class="dropbtn">
             Products <i class="fa-solid fa-caret-down"></i>
           </a>
           <div class="dropdown-content">
-     <a href="{% url 'store:productlist' %}">Product List</a>          </div>
+            <a href="{% url 'store:productlist' %}">Product List</a>
+          </div>
         </li>
         <!-- Conditional rendering: if the user is authenticated, show Profile; else, Sign In -->
         {% if user.is_authenticated %}
