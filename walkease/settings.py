@@ -122,7 +122,7 @@ AUTHENTICATION_BACKENDS = [
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
-ACCOUNT_ADAPTER = "store.adapters.CustomAccountAdapter"  
+ACCOUNT_ADAPTER = "walkease.store.adapters.CustomAccountAdapter"  
 
 
 LOGIN_URL = "/signin/"
