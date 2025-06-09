@@ -1,27 +1,36 @@
-from django.shortcuts       import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
-from django.http            import HttpResponse
-from django.conf            import settings
+from django.http import HttpResponse
+from django.conf import settings
 
-from .models import Product, Order, OrderItem, Review
-from .forms  import ReviewForm
+from .models import Product, Category, Order, OrderItem, Review
+from .forms import ReviewForm
 
 def index(request):
     """Homepage."""
     return render(request, "store/index.html")
 
 
-def product_list(request):
+def product_list(request, slug=None):
     """
-    Display all products.
-    If you want to filter by category later, you can accept a `category` GET param.
+    Show all products, or only those in a given category if a slug is provided.
     """
+    category = None
     products = Product.objects.all()
+
+    if slug:
+        category = get_object_or_404(Category, slug=slug)
+        products = products.filter(category=category)
+
     return render(
         request,
         "store/productlist.html",
-        {"products": products}
+        {
+            "products": products,
+            "category": category,                # Current category (could be None)
+            "all_categories": Category.objects.all(),  # For sidebar navigation
+        },
     )
 
 
@@ -38,9 +47,9 @@ def product_detail(request, product_id):
 @login_required
 def buy_product(request, product_id):
     """
-    Handles:
-      1) Adding to cart (POST with name="add_to_cart")
-      2) Posting a review (POST with name="submit_review")
+    Handles two actions:
+      1) Adding a product to the cart (triggered by a POST with name="add_to_cart")
+      2) Posting a review for the product (triggered by a POST with name="submit_review")
     """
     product = get_object_or_404(Product, id=product_id)
 
@@ -56,7 +65,7 @@ def buy_product(request, product_id):
         except (ValueError, ValidationError) as e:
             return HttpResponse(str(e), status=400)
 
-        # Create an OrderItem, then attach it to a (new or existing) Order
+        # Create an OrderItem, then attach it to an Order in "Cart" status
         item = OrderItem.objects.create(
             product=product,
             quantity=quantity,
@@ -78,31 +87,31 @@ def buy_product(request, product_id):
         if review_form.is_valid():
             review = review_form.save(commit=False)
             review.product = product
-            review.user    = request.user
+            review.user = request.user
             review.save()
             return redirect("store:buy_product", product_id=product.id)
 
-    # GET or invalid POST – render the page with context
+    # GET or invalid POST – render the page with product details, reviews, and review form.
     return render(request, "store/buy_product.html", {
-        "product":     product,
-        "reviews":     product.reviews.all(),  # using related_name="reviews"
+        "product": product,
+        "reviews": product.reviews.all(),  # This uses the related_name set on the Review model.
         "review_form": review_form,
     })
 
 
 def contact(request):
     """
-    A simple contact page – on POST you could:
+    A simple contact page; on POST you could:
       • Send an email via Django’s EmailMessage,
-      • Save it to a database table,
-      • Or forward to Formspree.
+      • Save the message to a database table,
+      • Or forward to an external service like Formspree.
     """
     if request.method == "POST":
-        # Example: just echo back
-        name    = request.POST.get("name")
-        email   = request.POST.get("email")
+        # Retrieve form fields from POST data.
+        name = request.POST.get("name")
+        email = request.POST.get("email")
         message = request.POST.get("message")
-        # TODO: send email or save to DB
+        # TODO: Implement email sending or save message to DB.
         return redirect("store:index")
-
+    
     return render(request, "store/contact.html")

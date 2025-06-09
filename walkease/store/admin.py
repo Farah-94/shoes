@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django import forms
-from .models import Product 
+from .models import Product, Category
 
 class ProductAdminForm(forms.ModelForm):
     class Meta:
@@ -34,3 +34,16 @@ class ProductAdmin(admin.ModelAdmin):
 
 # Register only the Product model
 admin.site.register(Product, ProductAdmin)
+# walkease/store/admin.py
+
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("name",)}
+    list_display = ("name", "slug")
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ("name", "category", "price", "stock")
+    list_filter  = ("category",)
