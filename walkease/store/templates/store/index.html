@@ -17,7 +17,7 @@
       <img src="{% static 'store/gallery/logo.png' %}" alt="Logo">    
     </div>
     <div class="header-right">
-      <a href="{% url 'store:cart' %}">
+      <a href="{% url 'cart:view_cart'  %}">
         <i class="fa-solid fa-cart-shopping"></i> Cart
       </a>
       {% if user.is_authenticated %}
