@@ -197,7 +197,45 @@ header {
   display: block;
 }
 
-
+.about-us-section, .contact-us-section {
+  padding: 40px 20px;
+  background-color: #f9f9f9;
+  margin: 20px 0;
+}
+.about-us-section h2, .contact-us-section h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.contact-details {
+  list-style: none;
+  padding: 0;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.contact-details li {
+  margin-bottom: 10px;
+}
+.contact-form label {
+  display: block;
+  margin-bottom: 5px;
+}
+.contact-form input, .contact-form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+}
+.contact-form button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
 
 /* Footer Styles */
 footer {

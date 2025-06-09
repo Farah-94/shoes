@@ -107,25 +107,57 @@
   </div>
 
   <section class="big-image">
-    <nav class="big-image-nav">
-      <ul class="nav-menu">
-        <li class="dropdown">
-          <a href="{% url 'store:productlist' %}">Products <i class="fa-solid fa-caret-down"></i></a>
-        </li>
-        {% if user.is_authenticated %}
-          <li class="dropdown">
-            <a href="#" class="dropbtn">Profile <i class="fa-solid fa-caret-down"></i></a>
-            <div class="dropdown-content">
-              <a href="{% url 'store:order-tracking' %}">Order Tracking</a>
-              <a href="{% url 'store:previous-orders' %}">Previous Orders</a>
-              <a href="{% url 'store:user-details' %}">User Details</a>
-            </div>
-          </li>
-        {% endif %}
-      </ul>
-    </nav>
+  
     <img class="back-image" src="{% static 'store/gallery/webfront.png' %}" alt="Featured Product">
   </section>
+
+
+<!-- About Us Section -->
+<section id="about-us" class="about-us-section">
+  <div class="container">
+    <h2>About Us</h2>
+    <p>
+      Welcome to Our Store! We are committed to delivering high-quality products with an excellent customer experience. 
+      Our mission is to provide the best deals, innovative products, and a shopping environment that caters to your unique needs.
+    </p>
+  </div>
+</section>
+
+<!-- Contact Us Section -->
+<section id="contact-us" class="contact-us-section">
+  <div class="container">
+    <h2>Contact Us</h2>
+    <p>
+      Have questions or need more information? Feel free to reach out to us via any of the contact methods below.
+    </p>
+    <ul class="contact-details">
+      <li>Email: <a href="mailto:info@example.com">info@example.com</a></li>
+      <li>Phone: +1 (234) 567 890</li>
+      <li>Address: 123 Main Street, Your City, Your Country</li>
+    </ul>
+
+    <!-- Optional: A Simple Contact Form -->
+    <form action="{% url 'store:contact' %}" method="post" class="contact-form">
+      {% csrf_token %}
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" rows="4" required></textarea>
+
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
+</section>
+
+
+
+
+
+
 
   <footer>
     <p>&copy; 2025 Your Store. All rights reserved.</p>
