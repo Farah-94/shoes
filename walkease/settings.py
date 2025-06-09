@@ -117,19 +117,14 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'  # ✅ Enables file uploads
 
-# Authentication Backends
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',  # Default Django authentication
-    'allauth.account.auth_backends.AuthenticationBackend',  # Django Allauth
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
-# Require email verification for new signups
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_ADAPTER = "store.adapters.CustomAccountAdapter"  
 
-# These fields will be present in the sign-up form.
-# Note that 'email' is required because of mandatory email verification.
-ACCOUNT_SIGNUP_FIELDS = ['username', 'email']
 
-# Allow login using only username.
-# (This avoids conflicts between ACCOUNT_LOGIN_METHODS and ACCOUNT_SIGNUP_FIELDS.)
-ACCOUNT_LOGIN_METHODS = {'username'}
+LOGIN_URL = "/signin/"
+LOGIN_REDIRECT_URL = "/index/"  # Redirect users after login
+MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
