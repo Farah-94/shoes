@@ -123,11 +123,13 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',  # Django Allauth
 ]
 
-# Django Allauth Settings
-# (No ACCOUNT_LOGIN_METHODS or ACCOUNT_AUTHENTICATION_METHOD specified)
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-ACCOUNT_SIGNUP_FIELDS = ['email', 'username', 'password1', 'password2']
+# Require email verification for new signups
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
-# Redirect URLs
-LOGIN_REDIRECT_URL = '/'
-ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+# These fields will be present in the sign-up form.
+# Note that 'email' is required because of mandatory email verification.
+ACCOUNT_SIGNUP_FIELDS = ['username', 'email']
+
+# Allow login using only username.
+# (This avoids conflicts between ACCOUNT_LOGIN_METHODS and ACCOUNT_SIGNUP_FIELDS.)
+ACCOUNT_LOGIN_METHODS = {'username'}
