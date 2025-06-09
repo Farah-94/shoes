@@ -17,15 +17,17 @@
       <img src="{% static 'store/gallery/logo.png' %}" alt="Logo">    
     </div>
     <div class="header-right">
-      <a href="{% url 'cart:view_cart'  %}">
+      <a href="{% url 'cart:view_cart' %}">
         <i class="fa-solid fa-cart-shopping"></i> Cart
       </a>
+      <!-- If the user is authenticated, show the profile link from the user app.
+           Otherwise, show the Sign In link. -->
       {% if user.is_authenticated %}
-        <a href="{% url 'store:profile' %}">
+        <a href="{% url 'user:profile_detail' %}">
           <i class="fa-solid fa-user"></i> Profile
         </a>
       {% else %}
-        <a href="{% url 'login' %}">
+        <a href="{% url 'signin' %}">
           <i class="fa-solid fa-user"></i> Sign In
         </a>
       {% endif %}

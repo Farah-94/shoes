@@ -20,6 +20,8 @@ from django.urls import path, include
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
+    path("user/", include("walkease.user.urls", namespace="user")),
+ 
 
     path("", include(("walkease.store.urls", "store"), namespace="store")),  # ✅ Fix duplicate issue
     path("cart/", include("walkease.cart.urls")),

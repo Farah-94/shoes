@@ -39,6 +39,8 @@ INSTALLED_APPS = [
      'walkease.store.apps.StoreConfig',
      'walkease.cart.apps.CartConfig',
      'walkease.checkout.apps.CheckoutConfig',
+     'walkease.user.apps.UserConfig',
+
 
      # Required for django-allauth
      'django.contrib.sites',
