@@ -62,3 +62,15 @@ def buy_product(request, product_id):
         return redirect("store:order_success", order_id=order.id)
 
     return render(request, "store/buy_product.html", {"product": product})
+
+
+def contact(request):
+    if request.method == "POST":
+        # Process form submission here.
+        # For example, retrieve form fields:
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        message = request.POST.get("message")
+        # You can then send an email, save to a database, or simply display a success message.
+        return redirect("store:index")  # Redirect to a page after processing
+    return render(request, "store/contact.html")  # Render a contact template if needed

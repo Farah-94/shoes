@@ -27,3 +27,38 @@ document.addEventListener("DOMContentLoaded", function() {
         }
       });
     });
+
+
+   
+  document.getElementById("contactForm").addEventListener("submit", function(e) {
+    e.preventDefault(); // Prevent the default form submission.
+
+    const form = this;
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+      method: "POST",
+      body: formData,
+      headers: {
+        Accept: "application/json"
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        alert("Thanks for your message!");
+        form.reset(); // Clear the form on success.
+      } else {
+        response.json().then(data => {
+          if (Object.hasOwn(data, 'errors')) {
+            alert("Oops! " + data["errors"].map(error => error["message"]).join(", "));
+          } else {
+            alert("Oops! There was a problem submitting your form");
+          }
+        });
+      }
+    })
+    .catch(error => {
+      console.error("Error submitting form:", error);
+      alert("Oops! There was a problem submitting your form");
+    });
+  });
