@@ -53,8 +53,10 @@
           <i class="fa-solid fa-user"></i> Profile
         </a>
       {% else %}
-        <a href="{% url 'account_login' %}">
-          <i class="fa-solid fa-user"></i> Sign In
+         <a href="{% url 'account_login' %}" title="Sign In">
+        <i class="fa-solid fa-right-to-bracket"></i>
+
+
         </a>
       {% endif %}
       
