@@ -67,7 +67,7 @@
           Menu <i class="fa-solid fa-bars"></i>
         </button>
         <div id="menu-dropdown" class="dropdown-content">
-          <a href="{% url 'store:productlist' %}">Products</a>
+          <a href="{% url 'store:product_list' %}">Products</a>
           {% if user.is_authenticated %}
             <a href="{% url 'user:profile_detail' %}">Profile</a>
           {% else %}
