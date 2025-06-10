@@ -4,23 +4,17 @@ from django.utils.safestring import mark_safe
 
 from .models import Category, Product, OrderItem, Order, Review
 
-# Custom ModelForm for Product (if you need it)
+# We intentionally do NOT register Category so that it is only used via the Product form.
+
+# Custom ModelForm for Product
 class ProductAdminForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = "__all__"
 
-
-@admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    prepopulated_fields = {"slug": ("name",)}
-    list_display = ("name", "slug")
-
-
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     form = ProductAdminForm
-
     list_display = (
         "name",
         "category",
@@ -60,11 +54,9 @@ class ProductAdmin(admin.ModelAdmin):
 
     display_main_image.short_description = "Image"
 
-
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
     list_display = ("product", "quantity", "size")
-
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
@@ -73,7 +65,6 @@ class OrderAdmin(admin.ModelAdmin):
     readonly_fields = ("created_at", "total_price")
     filter_horizontal = ("items",)
     raw_id_fields = ("user",)
-
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
