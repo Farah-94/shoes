@@ -2,9 +2,10 @@ from django.contrib import admin
 from django import forms
 from django.utils.safestring import mark_safe
 
-from .models import Category, Product, OrderItem, Order, Review
+from .models import Category, Product, Review
 
-# We intentionally do NOT register Category so that it is only used via the Product form.
+# We intentionally do NOT register the Category model 
+# since we want it only to be used in the Product form. 
 
 # Custom ModelForm for Product
 class ProductAdminForm(forms.ModelForm):
@@ -15,13 +16,7 @@ class ProductAdminForm(forms.ModelForm):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     form = ProductAdminForm
-    list_display = (
-        "name",
-        "category",
-        "price",
-        "stock",
-        "display_main_image",
-    )
+    list_display = ("name", "category", "price", "stock", "display_main_image")
     list_editable = ("price", "stock")
     search_fields = ("name", "description")
     list_filter = ("category", "price", "stock")
@@ -53,18 +48,6 @@ class ProductAdmin(admin.ModelAdmin):
         return "No Image"
 
     display_main_image.short_description = "Image"
-
-@admin.register(OrderItem)
-class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ("product", "quantity", "size")
-
-@admin.register(Order)
-class OrderAdmin(admin.ModelAdmin):
-    list_display = ("id", "user", "status", "created_at", "total_price")
-    list_filter = ("status", "created_at")
-    readonly_fields = ("created_at", "total_price")
-    filter_horizontal = ("items",)
-    raw_id_fields = ("user",)
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
