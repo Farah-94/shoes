@@ -12,7 +12,7 @@
     <!-- Example Navigation; adjust URLs as needed -->
     <nav>
       <ul>
-        <li><a href="{% url 'store:home' %}">Home</a></li>
+        <li><a href="{% url 'store:index' %}">Home</a></li>
         <li><a href="{% url 'cart:view_cart' %}">Cart</a></li>
         <li>
           {% if user.is_authenticated %}
