@@ -21,7 +21,6 @@ def profile_detail(request):
 
 @login_required
 def update_profile(request):
-    # Check if the Profile exists; if not, create one.
     try:
         profile = request.user.profile
     except Profile.DoesNotExist:
@@ -34,6 +33,4 @@ def update_profile(request):
             return redirect('user:profile_detail')
     else:
         form = ProfileUpdateForm(instance=profile)
-    return render(request, "user/update_profile.html", {"form": form})
-
-
+    return render(request, "user/profile.html", {"form": form})

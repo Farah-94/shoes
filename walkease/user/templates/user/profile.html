@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -9,7 +9,6 @@
 </head>
 <body>
   <header>
-    <!-- Example Navigation; adjust URLs as needed -->
     <nav>
       <ul>
         <li><a href="{% url 'store:index' %}">Home</a></li>
@@ -65,5 +64,83 @@
   <footer>
     <p>&copy; {% now "Y" %} Walkease. All rights reserved.</p>
   </footer>
+</body>
+</html>  -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - Walkease</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'user/css/style.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'store:index' %}">Home</a></li>
+                <li><a href="{% url 'cart:view_cart' %}">Cart</a></li>
+                <li>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'user:profile_detail' %}">Profile</a>
+                    {% else %}
+                        <a href="{% url 'login' %}">Login</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="profile-page">
+        <section class="profile-banner">
+            <h1>Welcome, {{ user.first_name|default:user.username }}!</h1>
+        </section>
+
+        <section class="profile-container">
+            <div class="profile-avatar">
+                {% if user.profile.avatar %}
+                    <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}'s avatar">
+                {% else %}
+                    <img src="{% static 'images/default_avatar.jpg' %}" alt="Default avatar">
+                {% endif %}
+            </div>
+
+            <div class="profile-info">
+                <h2>Your Information</h2>
+                <p><strong>Username:</strong> {{ user.username }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                {% if user.profile.bio %}
+                    <p><strong>Bio:</strong> {{ user.profile.bio }}</p>
+                {% else %}
+                    <p><strong>Bio:</strong> Not provided yet.</p>
+                {% endif %}
+                {% if user.profile.location %}
+                    <p><strong>Location:</strong> {{ user.profile.location }}</p>
+                {% endif %}
+                {% if user.profile.birth_date %}
+                    <p><strong>Birth Date:</strong> {{ user.profile.birth_date|date:"F j, Y" }}</p>
+                {% endif %}
+            </div>
+        </section>
+
+        <!-- Display update form if available -->
+        {% if form %}
+        <section class="profile-form">
+            <h2>Update Profile</h2>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Save Changes</button>
+            </form>
+        </section>
+        {% endif %}
+    </main>
+
+    <footer>
+        <p>&copy; {% now "Y" %} Walkease. All rights reserved.</p>
+    </footer>
 </body>
 </html>
