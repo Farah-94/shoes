@@ -31,11 +31,12 @@
 
     <section class="profile-container">
       <div class="profile-avatar">
-        {% if user.profile.avatar %}
-          <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}'s avatar">
-        {% else %}
-          <img src="{% static 'user/gallery/default_avatar.jpg' %}" alt="upload an avatar">
-        {% endif %}
+      {% load static %}
+{% if user.profile.avatar %}
+    <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}'s avatar">
+{% else %}
+    <img src="{% static 'user/gallery/default_avatar.jpg' %}" alt="Default Avatar">
+{% endif %}
       </div>
 
       <div class="profile-update-form">
