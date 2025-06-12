@@ -1,5 +1,8 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+
+from .forms import ProfileUpdateForm
+
 
 @login_required
 def profile_detail(request):
@@ -16,13 +19,13 @@ def profile_detail(request):
 
 @login_required
 def update_profile(request):
-    # For now, just a placeholder that renders an update template.
-    # Later, you might integrate a ModelForm to handle the update logic.
+    profile = request.user.profile  # Get the current user's profile
     if request.method == "POST":
-        # Process form data here...
-        # form = UserProfileForm(request.POST, instance=request.user.profile)
-        # if form.is_valid():
-        #     form.save()
-        #     return redirect('user:profile_detail')
-        pass
-    return render(request, "user/update_profile.html")
+        form = ProfileUpdateForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('user:profile_detail')
+    else:
+        form = ProfileUpdateForm(instance=profile)
+    return render(request, "user/update_profile.html", {"form": form})
+
