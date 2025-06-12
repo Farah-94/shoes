@@ -34,7 +34,7 @@
         {% if user.profile.avatar %}
           <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}'s avatar">
         {% else %}
-          <img src="{% static 'images/default_avatar.jpg' %}" alt="upload an avatar">
+          <img src="{% static 'images/default_avatar.jpg' %}" alt="default avatar">
         {% endif %}
       </div>
 
