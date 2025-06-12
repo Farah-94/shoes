@@ -1,0 +1,1 @@
+default_app_config = 'walkease.user.apps.UserConfig'

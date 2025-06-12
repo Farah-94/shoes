@@ -2,6 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from .forms import ProfileUpdateForm
+from .models import Profile
+
 
 
 @login_required
@@ -19,7 +21,12 @@ def profile_detail(request):
 
 @login_required
 def update_profile(request):
-    profile = request.user.profile  # Get the current user's profile
+    # Check if the Profile exists; if not, create one.
+    try:
+        profile = request.user.profile
+    except Profile.DoesNotExist:
+        profile = Profile.objects.create(user=request.user)
+
     if request.method == "POST":
         form = ProfileUpdateForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
@@ -28,4 +35,5 @@ def update_profile(request):
     else:
         form = ProfileUpdateForm(instance=profile)
     return render(request, "user/update_profile.html", {"form": form})
+
 
