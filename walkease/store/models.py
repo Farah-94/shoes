@@ -13,11 +13,12 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-    # Auto-generate slug if not provided
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+
+
 
 class Product(models.Model):
     # Make category optional by adding null=True and blank=True.
