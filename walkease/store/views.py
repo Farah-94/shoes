@@ -4,7 +4,8 @@ from django.core.exceptions import ValidationError
 from django.http import HttpResponse
 from django.conf import settings
 
-from walkease.store.models import Product, Category, Order, OrderItem, Reviewfrom .forms import ReviewForm
+from walkease.store.models import Product, Category, Order, OrderItem, Review
+from .forms import ReviewForm
 
 def index(request):
     """Homepage."""
