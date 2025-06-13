@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Notice - Walkease</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'user/css/style.css' %}">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="{% url 'store:index' %}">Home</a></li>
+        <li><a href="{% url 'cart:view_cart' %}">Cart</a></li>
+        <li>
+          {% if user.is_authenticated and not user.is_superuser %}
+            <a href="{% url 'user:profile_detail' %}">Profile</a>
+          {% elif not user.is_authenticated %}
+            <a href="{% url 'login' %}">Login</a>
+          {% endif %}
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="profile-page">
+    <section class="profile-banner">
+      <h1>Notice for Admin</h1>
+    </section>
+
+    <section class="profile-container">
+      <p>{{ message }}</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; {% now "Y" %} Walkease. All rights reserved.</p>
+  </footer>
+</body>
+</html>

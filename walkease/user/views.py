@@ -10,19 +10,21 @@ from .models import Profile
 def profile_detail(request):
     return render(request, "user/profile.html")
 
-# walkease/user/views.py
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
 
 @login_required
 def profile_detail(request):
-    # Render the profile page
+    # If the user is an admin (superuser), show a custom message.
+    if request.user.is_superuser:
+        context = {
+            'message': "You don't have a profile because you are an admin."
+        }
+        return render(request, "user/admin_profile_message.html", context)
+    
+    # Otherwise, render the normal profile template.
     return render(request, "user/profile.html")
 
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-from .forms import ProfileUpdateForm
-from .models import Profile
+
+
 
 @login_required
 def update_profile(request):
