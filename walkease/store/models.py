@@ -20,6 +20,8 @@ class Category(models.Model):
 
 
 
+from django.db import models
+
 class Product(models.Model):
     # Make category optional by adding null=True and blank=True.
     category = models.ForeignKey(
@@ -33,8 +35,8 @@ class Product(models.Model):
     price       = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField()
     stock       = models.PositiveIntegerField(default=0)
-    image       = models.ImageField(upload_to="products/", null=True, blank=True)
-
+    image       = models.ImageField(blank=True, null=True, upload_to='products/')
+    
     def __str__(self):
         return self.name
 
