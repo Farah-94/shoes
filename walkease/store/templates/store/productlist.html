@@ -43,7 +43,7 @@
                 {% if product.image %}
                     <img src="{{ product.image.url }}" alt="{{ product.name }}">
                 {% else %}
-                    <img src="{% static 'store/gallery/default.png' %}" alt="{{ product.name }}">
+                    <img src="{% static 'store/gallery/crocs.jpg' %}" alt="{{ product.name }}">
                 {% endif %}
                 <p>{{ product.description }}</p>
                 <p>Price: ${{ product.price }}</p>
