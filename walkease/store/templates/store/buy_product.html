@@ -30,7 +30,7 @@
     <p><strong>Price:</strong> ${{ product.price }}</p>
 
     {% if product.stock > 0 %}
-        <form class="buy-form" method="post" action="{% url 'store:add_to_cart' product.id %}">
+        <form class="buy-form" method="post" action="{% url 'cart:add_to_cart' product.id %}">
             {% csrf_token %}
             
             <label for="quantity-input">Quantity:</label>
