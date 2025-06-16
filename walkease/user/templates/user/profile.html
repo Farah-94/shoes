@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="{% static 'user/css/style.css' %}">
 </head>
 <body>
+
   <header>
     <nav>
       <ul>
@@ -17,7 +18,7 @@
           {% if user.is_authenticated %}
             <a href="{% url 'user:profile_detail' %}">Profile</a>
           {% else %}
-            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'account_login' %}">Login</a>
           {% endif %}
         </li>
       </ul>
@@ -60,6 +61,26 @@
     <section class="profile-actions">
       <a href="{% url 'user:update_profile' %}" class="btn-update">Edit Profile</a>
     </section>
+
+<!-- Order History Section -->
+
+    <section class="order-history">
+      <h2>Your Order History</h2>
+      {% if order_history %}
+        <ul>
+          {% for order in order_history %}
+            <li>
+              <strong>Order Number:</strong> {{ order.order_number }}<br>
+              <strong>Total Price:</strong> ${{ order.total_price }}<br>
+              <strong>Date:</strong> {{ order.created_at|date:"F j, Y, g:i a" }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>You have no orders yet.</p>
+      {% endif %}
+    </section>
+
   </main>
 
   <footer>

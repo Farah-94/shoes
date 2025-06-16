@@ -1,43 +1,35 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-
-from .forms import ProfileUpdateForm
-from .models import Profile
-
-
+from checkout.models import Order  # Import Order model from checkout app
+from django.contrib import messages
+from .forms import UserProfileForm
 
 @login_required
 def profile_detail(request):
-    return render(request, "user/profile.html")
-
-
-@login_required
-def profile_detail(request):
-    # If the user is an admin (superuser), show a custom message.
+    # For admins, show a custom admin message
     if request.user.is_superuser:
-        context = {
-            'message': "You don't have a profile because you are an admin."
-        }
-        return render(request, "user/admin_profile_message.html", context)
-    
-    # Otherwise, render the normal profile template.
-    return render(request, "user/profile.html")
+        context = {'message': "You don't have a profile because you are an admin."}
+        return render(request, "user/admin_profile.html", context)
 
+    # Retrieve the current user's order history. Orders are sorted by newest first.
+    order_history = Order.objects.filter(user=request.user).order_by('-created_at')
 
-
+    context = {
+        'order_history': order_history,
+    }
+    return render(request, "user/profile.html", context)
 
 @login_required
 def update_profile(request):
-    try:
-        profile = request.user.profile
-    except Profile.DoesNotExist:
-        profile = Profile.objects.create(user=request.user)
-    
-    if request.method == "POST":
-        form = ProfileUpdateForm(request.POST, request.FILES, instance=profile)
+    profile = request.user.profile
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
+            messages.success(request, "Your profile has been updated successfully.")
             return redirect('user:profile_detail')
+        else:
+            messages.error(request, "Please correct the errors below.")
     else:
-        form = ProfileUpdateForm(instance=profile)
-    return render(request, "user/update_profile.html", {"form": form})
+        form = UserProfileForm(instance=profile)
+    return render(request, "user/update_profile.html", {'form': form})
