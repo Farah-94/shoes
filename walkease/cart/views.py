@@ -22,24 +22,26 @@ def cart_view(request):
 @login_required
 def add_to_cart(request, product_id):
     """
-    Adds a product to the cart with a specified size.
-    Uses update_or_create to increment quantity if an item with the same size already exists.
+    Adds a product to the cart.
+    Uses update_or_create to increment quantity if the item already exists.
     """
     product = get_object_or_404(Product, id=product_id)
-    size = request.POST.get("size", "M")  # Default to size "M" if none provided
-
+    
+    # Remove size handling if not needed
+    # size = request.POST.get("size", "M")
+    
     cart_item, created = CartItem.objects.update_or_create(
         user=request.user,
         product=product,
-        size=size,
         defaults={"quantity": 1},
     )
     if not created:
         cart_item.quantity += 1
         cart_item.save()
 
-    messages.success(request, f"{product.name} (Size {size}) added to your cart!")
+    messages.success(request, f"{product.name} added to your cart!")
     return redirect(reverse("cart:cart_view"))
+
 
 def signup(request):
     """
