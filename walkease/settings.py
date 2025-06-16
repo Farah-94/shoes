@@ -13,8 +13,6 @@ from pathlib import Path
 
 # Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-21$3%#=qnsrmr#g51p$p1&62@au%apx^m+w$r0o*1!yo(-@qcj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -128,3 +126,11 @@ ACCOUNT_ADAPTER = "walkease.store.adapters.CustomAccountAdapter"
 LOGIN_URL = "/signin/"
 LOGIN_REDIRECT_URL = "/index/"  # Redirect users after login
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
+
+
+# Session settings for production
+SESSION_COOKIE_SECURE = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+# Secure proxy header (useful on Heroku)
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

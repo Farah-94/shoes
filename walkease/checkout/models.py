@@ -7,7 +7,7 @@ class Order(models.Model):
     order_number = models.CharField(max_length=20)
     total_price = models.DecimalField(max_digits=8, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
-    # Additional order-related fields
+    # You can add status, payment details, etc.
 
     def __str__(self):
         return f"Order {self.order_number} for {self.user.username}"
