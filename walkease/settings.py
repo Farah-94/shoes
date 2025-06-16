@@ -134,3 +134,11 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 # Secure proxy header (useful on Heroku)
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
+
+STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
+
+print("Stripe Public Key:", STRIPE_PUBLIC_KEY)  # Remove after verification
+print("Stripe Secret Key:", STRIPE_SECRET_KEY)  # Remove after verification
