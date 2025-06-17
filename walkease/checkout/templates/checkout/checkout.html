@@ -6,6 +6,8 @@
   <title>Checkout - Walkease</title>
   {% load static %}
   <link rel="stylesheet" href="{% static 'checkout/css/style.css' %}">
+  <!-- Load Stripe.js from Stripe CDN -->
+  <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
   <header>
@@ -40,12 +42,12 @@
       {% endif %}
     </section>
 
-    <!-- Billing & Payment Section -->
+    <!-- Billing & Payment Section using Stripe Elements -->
     <section class="payment-details">
       <h2>Billing & Payment Information</h2>
-      <form method="POST" action="{% url 'checkout:process_payment' %}">
+      <!-- Billing Information remains the same -->
+      <form id="payment-form">
         {% csrf_token %}
-        <!-- Billing Information -->
         <fieldset>
           <legend>Billing Address</legend>
           <div>
@@ -70,24 +72,15 @@
           </div>
         </fieldset>
 
-        <!-- Payment Information -->
+        <!-- Payment Section (Card Element will be inserted here) -->
         <fieldset>
           <legend>Payment Details</legend>
-          <div>
-            <label for="card_number">Card Number:</label>
-            <input type="text" id="card_number" name="card_number" required>
-          </div>
-          <div>
-            <label for="expiry_date">Expiry Date (MM/YY):</label>
-            <input type="text" id="expiry_date" name="expiry_date" required>
-          </div>
-          <div>
-            <label for="cvc">CVC:</label>
-            <input type="text" id="cvc" name="cvc" required>
-          </div>
+          <!-- Stripe mounts the card input into this div -->
+          <div id="payment-element"></div>
         </fieldset>
 
-        <button type="submit" class="btn-submit">Process Payment</button>
+        <button type="submit" id="submit" class="btn-submit">Process Payment</button>
+        <div id="payment-message"></div>
       </form>
     </section>
   </main>
@@ -95,5 +88,12 @@
   <footer>
     <p>&copy; {% now "Y" %} Walkease. All rights reserved.</p>
   </footer>
+
+  <!-- Pass the publishable key from Django context to a global JS variable -->
+  <script>
+    window.stripePublicKey = "{{ stripe_public_key }}";
+  </script>
+  <!-- Include your custom JavaScript for Stripe Elements -->
+  <script src="{% static 'checkout/js/checkout.js' %}"></script>
 </body>
 </html>
