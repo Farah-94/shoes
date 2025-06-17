@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect
 from walkease.checkout.models import Order
  # Import Order model from checkout app
 from django.contrib import messages
-from .forms import UserProfileForm
+from .forms import ProfileUpdateForm
+
 
 @login_required
 def profile_detail(request):
@@ -24,7 +25,7 @@ def profile_detail(request):
 def update_profile(request):
     profile = request.user.profile
     if request.method == 'POST':
-        form = UserProfileForm(request.POST, request.FILES, instance=profile)
+        form = ProfileUpdateForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
             messages.success(request, "Your profile has been updated successfully.")
@@ -32,5 +33,5 @@ def update_profile(request):
         else:
             messages.error(request, "Please correct the errors below.")
     else:
-        form = UserProfileForm(instance=profile)
+        form = ProfileUpdateForm(instance=profile)
     return render(request, "user/update_profile.html", {'form': form})
