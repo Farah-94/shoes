@@ -32,9 +32,9 @@
             <p>Size: {{ item.size }}</p>
             <p>Quantity: {{ item.quantity }}</p>
             <p>Price per item: ${{ item.product.price|floatformat:2 }}</p>
-            <p>Total: ${{ item.product.price|floatformat:2|floatformat:"" }} x {{ item.quantity }} = ${{ item.product.price|mul:item.quantity|floatformat:2 }}</p>
-            <!-- If you haven't defined a custom filter 'mul', you might instead pre-calculate this in your view or use a method on your model -->
+            <p>Total: ${{ item.product.price|mul:item.quantity|floatformat:2 }}</p>
             
+
             <div class="cart-actions">
               <a href="{% url 'cart:update_cart' item.id 'decrease' %}">➖</a>
               <span>{{ item.quantity }}</span>
