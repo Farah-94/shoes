@@ -21,13 +21,13 @@ def cart_view(request):
 
 @login_required
 def add_to_cart(request, product_id):
-    """
-    Adds a product to the cart.
-    Uses update_or_create to increment quantity if the item already exists.
+    """Adds a product to the cart.
+    If the user is not signed in, they’ll be redirected to sign in.
+    After sign in, they are redirected back so they can view their cart.
     """
     product = get_object_or_404(Product, id=product_id)
 
-    # Retrieve size from POST; default to "M" if no size is provided.
+    # Retrieve size from POST; default to "M" if not provided.
     size_value = request.POST.get("size", "M")
 
     cart_item, created = CartItem.objects.update_or_create(
@@ -41,7 +41,6 @@ def add_to_cart(request, product_id):
 
     messages.success(request, f"{product.name} added to your cart!")
     return redirect(reverse("cart:view_cart"))
-
 
 def signup(request):
     """
@@ -74,19 +73,15 @@ def signin(request):
 
         if user:
             login(request, user)
-            # Retrieve the next parameter from the POST data (or GET if missing)
-            next_url = request.POST.get("next") or request.GET.get("next")
-            if next_url:
-                return redirect(next_url)
-            else:
-                return redirect("store:index")
+            # Get the next URL from the form data; if not provided, default to the cart view.
+            next_url = request.POST.get("next") or reverse("cart:view_cart")
+            return redirect(next_url)
         else:
             messages.error(request, "Invalid username or password.")
-
-    next_url = request.GET.get("next", "")
+    
+    # When handling GET, retrieve the next parameter from the URL if it exists.
+    next_url = request.GET.get("next", reverse("cart:view_cart"))
     return render(request, "cart/signin.html", {"next": next_url})
-
-
 
 def logout_view(request):
     """
@@ -96,14 +91,12 @@ def logout_view(request):
     messages.success(request, "You have logged out successfully!")
     return redirect("cart:signin")
 
+from django.contrib.auth.views import LoginView
+from django.urls import reverse
+
 class CustomLoginView(LoginView):
-    """
-    Custom login view that uses the template in cart/signin.html.
-    Redirects authenticated users and directs successful logins to the store index.
-    """
     template_name = "cart/signin.html"
-    redirect_authenticated_user = True
 
     def get_success_url(self):
-        return reverse("store:index")
-    
+        # Use the next parameter if available; otherwise, default to the cart view.
+        return self.get_redirect_url() or reverse("cart:view_cart")
