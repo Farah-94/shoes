@@ -1,39 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In</title>
-    {% load static %}
-<link rel="stylesheet" href="{% static 'cart/css/style.css' %}"></head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart</title>
+  {% load static %}
+  {% load cart_extras %}
+
+  <link rel="stylesheet" href="{% static 'cart/css/style.css' %}">
+</head>
 <body>
-    <header>
-        <h1>Sign In</h1>
-    </header>
-
-    <main class="signin-form-container">
-  
-{% if messages %}
-    <div class="messages">
+  <header>
+    <h1>Your Cart</h1>
+    <a href="{% url 'store:product_list' %}" class="back-button">Back to Products</a>
+  </header>
+  <main class="cart-container">
+    {% if messages %}
+      <div class="messages">
         {% for message in messages %}
-            <p class="{{ message.tags }}">{{ message }}</p>
+          <p class="{{ message.tags }}">{{ message }}</p>
         {% endfor %}
-    </div>
-{% endif %}
+      </div>
+    {% endif %}
 
- <form method="POST" action="{% url 'cart:signin' %}">
-    {% csrf_token %}
-    
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required autocomplete="username">
-
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required autocomplete="current-password">
-
-    <button type="submit">Sign In</button>
-</form>
-
-<p>Don't have an account? <a href="{% url 'cart:signup' %}">Sign Up</a></p>
-    </main>
+    {% if cart_items %}
+      {% for item in cart_items %}
+        <div class="cart-item">
+          <img src="{% static 'cart/images/products/tshirt.jpg' %}" alt="{{ item.product.name }}">
+          <div class="cart-details">
+            <h3>{{ item.product.name }}</h3>
+            <p>Size: {{ item.size }}</p>
+            <p>Quantity: {{ item.quantity }}</p>
+            <p>Price per item: ${{ item.product.price|floatformat:2 }}</p>
+            <p>Total: ${{ item.product.price|floatformat:2|floatformat:"" }} x {{ item.quantity }} = ${{ item.product.price|mul:item.quantity|floatformat:2 }}</p>
+            <!-- If you haven't defined a custom filter 'mul', you might instead pre-calculate this in your view or use a method on your model -->
+            
+            <div class="cart-actions">
+              <a href="{% url 'cart:update_cart' item.id 'decrease' %}">➖</a>
+              <span>{{ item.quantity }}</span>
+              <a href="{% url 'cart:update_cart' item.id 'increase' %}">➕</a>
+            </div>
+            <a href="{% url 'cart:remove_from_cart' item.id %}" class="remove-btn">🗑️ Remove</a>
+          </div>
+        </div>
+      {% endfor %}
+      <div class="cart-summary">
+        <h3>Cart Total: ${{ total_price|floatformat:2 }}</h3>
+        <a href="{% url 'store:checkout' %}" class="checkout-btn">Proceed to Checkout</a>
+      </div>
+    {% else %}
+      <p>Your cart is empty.</p>
+    {% endif %}
+  </main>
 </body>
 </html>
