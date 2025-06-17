@@ -26,14 +26,14 @@ def add_to_cart(request, product_id):
     Uses update_or_create to increment quantity if the item already exists.
     """
     product = get_object_or_404(Product, id=product_id)
-    
-    # Remove size handling if not needed
-    # size = request.POST.get("size", "M")
-    
+
+    # Retrieve size from POST; default to "M" if no size is provided.
+    size_value = request.POST.get("size", "M")
+
     cart_item, created = CartItem.objects.update_or_create(
         user=request.user,
         product=product,
-        defaults={"quantity": 1},
+        defaults={"quantity": 1, "size": size_value},
     )
     if not created:
         cart_item.quantity += 1
