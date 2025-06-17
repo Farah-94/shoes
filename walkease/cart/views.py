@@ -40,7 +40,7 @@ def add_to_cart(request, product_id):
         cart_item.save()
 
     messages.success(request, f"{product.name} added to your cart!")
-    return redirect(reverse("cart:cart_view"))
+    return redirect(reverse("cart:view_cart"))
 
 
 def signup(request):
