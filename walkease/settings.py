@@ -122,9 +122,8 @@ AUTHENTICATION_BACKENDS = [
 
 ACCOUNT_ADAPTER = "walkease.store.adapters.CustomAccountAdapter"  
 
-
-LOGIN_URL = "/signin/"
-LOGIN_REDIRECT_URL = "/index/"  # Redirect users after login
+LOGIN_URL = "/cart/signin"
+LOGIN_REDIRECT_URL = "/cart/view/" # Redirect users after login
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
 
