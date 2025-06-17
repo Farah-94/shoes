@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from checkout.models import Order  # Import Order model from checkout app
+from walkease.checkout.models import Order
+ # Import Order model from checkout app
 from django.contrib import messages
 from .forms import UserProfileForm
 
