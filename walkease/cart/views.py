@@ -4,10 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.views import LoginView
 from django.urls import reverse
-from walkease.store.models import Product  # Ensures correct model reference
-from walkease.cart.models import CartItem  # Fully qualified path for CartItem
+from walkease.store.models import Product
+from walkease.cart.models import CartItem
 
 @login_required
 def cart_view(request):
@@ -21,12 +20,12 @@ def cart_view(request):
 
 @login_required
 def add_to_cart(request, product_id):
-    """Adds a product to the cart.
-    If the user is not signed in, they’ll be redirected to sign in.
-    After sign in, they are redirected back so they can view their cart.
+    """
+    Adds a product to the cart.
+    If the user is not signed in, they will be redirected to sign in.
+    After sign in, they are redirected back to view their cart.
     """
     product = get_object_or_404(Product, id=product_id)
-
     # Retrieve size from POST; default to "M" if not provided.
     size_value = request.POST.get("size", "M")
 
@@ -45,7 +44,7 @@ def add_to_cart(request, product_id):
 def signup(request):
     """
     Handles user sign-up and account creation using Django's built-in UserCreationForm.
-    On successful signup, sets a session message and redirects to the sign-in page.
+    On successful signup, a session message is set and the user is redirected to sign in.
     """
     if request.method == "POST":
         form = UserCreationForm(request.POST)
@@ -66,6 +65,10 @@ def signup(request):
     return render(request, "cart/signup.html", {"form": form})
 
 def signin(request):
+    """
+    Custom sign-in view.
+    It checks for the 'next' parameter to redirect the user to their desired page after a successful login.
+    """
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -73,14 +76,18 @@ def signin(request):
 
         if user:
             login(request, user)
-            # Get the next URL from the form data; if not provided, default to the cart view.
+            # Retrieve the next URL from the form data; default to the cart view.
             next_url = request.POST.get("next") or reverse("cart:view_cart")
+            # Debug: Uncomment the following line if you need to check the next_url value.
+            # print("Redirecting to:", next_url)
             return redirect(next_url)
         else:
             messages.error(request, "Invalid username or password.")
-    
-    # When handling GET, retrieve the next parameter from the URL if it exists.
-    next_url = request.GET.get("next", reverse("cart:view_cart"))
+
+    # For GET, retrieve the next parameter from the URL, defaulting to the cart view.
+    next_url = request.GET.get("next") or reverse("cart:view_cart")
+    # Debug: Uncomment the following line if you need to check the next_url value.
+    # print("Rendering sign-in with next:", next_url)
     return render(request, "cart/signin.html", {"next": next_url})
 
 def logout_view(request):
@@ -90,13 +97,3 @@ def logout_view(request):
     logout(request)
     messages.success(request, "You have logged out successfully!")
     return redirect("cart:signin")
-
-from django.contrib.auth.views import LoginView
-from django.urls import reverse
-
-class CustomLoginView(LoginView):
-    template_name = "cart/signin.html"
-
-    def get_success_url(self):
-        # Use the next parameter if available; otherwise, default to the cart view.
-        return self.get_redirect_url() or reverse("cart:view_cart")
