@@ -67,11 +67,6 @@ def signup(request):
     return render(request, "cart/signup.html", {"form": form})
 
 def signin(request):
-    """
-    Handles user authentication.
-    On valid credentials, logs in the user and redirects to the store index.
-    Otherwise, displays an error message.
-    """
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -79,11 +74,19 @@ def signin(request):
 
         if user:
             login(request, user)
-            return redirect("store:index")
+            # Retrieve the next parameter from the POST data (or GET if missing)
+            next_url = request.POST.get("next") or request.GET.get("next")
+            if next_url:
+                return redirect(next_url)
+            else:
+                return redirect("store:index")
         else:
             messages.error(request, "Invalid username or password.")
 
-    return render(request, "cart/signin.html")
+    next_url = request.GET.get("next", "")
+    return render(request, "cart/signin.html", {"next": next_url})
+
+
 
 def logout_view(request):
     """

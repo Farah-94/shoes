@@ -21,15 +21,12 @@
     </div>
 {% endif %}
 
- <form method="POST" action="{% url 'cart:signin' %}">
+<form method="POST" action="{% url 'cart:signin' %}">
     {% csrf_token %}
-    
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required autocomplete="username">
-
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required autocomplete="current-password">
-
+    <input type="hidden" name="next" value="{{ next }}">
+    <!-- Your username and password inputs -->
+    <input type="text" name="username" placeholder="Username">
+    <input type="password" name="password" placeholder="Password">
     <button type="submit">Sign In</button>
 </form>
 
