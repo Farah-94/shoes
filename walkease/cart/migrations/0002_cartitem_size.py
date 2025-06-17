@@ -3,7 +3,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('cart', '0002_cartitem_size'),
+        ('cart', '0001_initial'),
     ]
 
     operations = [
