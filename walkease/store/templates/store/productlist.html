@@ -40,11 +40,11 @@
         <a href="{% url 'store:buy_product' product.id %}" class="product-link">
             <div class="product-card">
                 <h2>{{ product.name }}</h2>
-                {% if product.image %}
-                    <img src="{% static 'store/gallery/'|add:product.image %}" alt="{{ product.name }}">               
-                      {% else %}
-                    <img src="{% static 'store/gallery/crocs.jpg' %}" alt="{{ product.name }}">
-                {% endif %}
+              {% if product.image %}
+                <img src="{% static 'store/gallery/'|add:product.image %}" alt="{{ product.name }}">
+                 {% else %}
+                <img src="{% static 'store/gallery/crocs.jpg' %}" alt="{{ product.name }}">
+                 {% endif %}
                 <p>{{ product.description }}</p>
                 <p>Price: ${{ product.price }}</p>
             </div>
