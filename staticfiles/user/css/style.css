@@ -1,0 +1,122 @@
+/* Reset some default browser styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* General page styling */
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #f1f1f1;
+  color: #333;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+/* Header styles */
+header {
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header .logo img {
+  height: 50px;
+}
+
+header .header-right a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+header .header-right a:hover {
+  color: #007bff;
+}
+
+/* Profile page container */
+.profile-page {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Profile banner */
+.profile-banner {
+  background-color: #007bff;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+.profile-banner h1 {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+/* Profile container to hold avatar and info */
+.profile-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.profile-avatar {
+  flex: 0 0 200px;
+  margin-right: 20px;
+  text-align: center;
+}
+
+.profile-avatar img {
+  width: 100%;
+  border-radius: 50%;
+  border: 4px solid #007bff;
+}
+
+.profile-info {
+  flex: 1 1 300px;
+}
+
+.profile-info h2 {
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+}
+
+.profile-info p {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.profile-info p strong {
+  width: 120px;
+  display: inline-block;
+}
+
+/* Profile actions / buttons */
+.profile-actions {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.profile-actions a.btn-update {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.profile-actions a.btn-update:hover {
+  background-color: #0056b3;
+}
+
+/* Footer styling
