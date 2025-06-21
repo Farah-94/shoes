@@ -32,12 +32,12 @@
 
     <section class="profile-container">
       <div class="profile-avatar">
-     {% load static %}
-{% if user.profile.avatar %}
-    <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}'s avatar">
-{% else %}
-    <img src="{% static 'user/gallery/default_avatar.jpg' %}" alt="Default Avatar">
-{% endif %}
+        {% load static %}
+        {% if user.profile.avatar %}
+            <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}'s avatar">
+        {% else %}
+            <img src="{% static 'user/gallery/default_avatar.jpg' %}" alt="Default Avatar">
+        {% endif %}
       </div>
 
       <div class="profile-info">
@@ -62,30 +62,10 @@
       <a href="{% url 'user:update_profile' %}" class="btn-update">Edit Profile</a>
     </section>
 
-<!-- Order History Section -->
-
-    <section class="order-history">
-      <h2>Your Order History</h2>
-      {% if order_history %}
-        <ul>
-          {% for order in order_history %}
-            <li>
-              <strong>Order Number:</strong> {{ order.order_number }}<br>
-              <strong>Total Price:</strong> ${{ order.total_price }}<br>
-              <strong>Date:</strong> {{ order.created_at|date:"F j, Y, g:i a" }}
-            </li>
-          {% endfor %}
-        </ul>
-      {% else %}
-        <p>You have no orders yet.</p>
-      {% endif %}
-    </section>
-
   </main>
 
   <footer>
     <p>&copy; {% now "Y" %} Walkease. All rights reserved.</p>
   </footer>
 </body>
-</html> 
-
+</html>
