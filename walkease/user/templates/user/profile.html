@@ -9,21 +9,25 @@
 </head>
 <body>
 
-  <header>
-    <nav>
-      <ul>
-        <li><a href="{% url 'store:index' %}">Home</a></li>
-        <li><a href="{% url 'cart:view_cart' %}">Cart</a></li>
-        <li>
-          {% if user.is_authenticated %}
-            <a href="{% url 'user:profile_detail' %}">Profile</a>
-          {% else %}
-            <a href="{% url 'account_login' %}">Login</a>
-          {% endif %}
-        </li>
-      </ul>
-    </nav>
-  </header>
+<header>
+  <nav>
+    <ul>
+      <li><a href="{% url 'store:index' %}">Home</a></li>
+      <li><a href="{% url 'cart:view_cart' %}">Cart</a></li>
+      <li>
+        {% if user.is_authenticated %}
+          <a href="{% url 'user:profile_detail' %}">Profile</a>
+        {% else %}
+          <a href="{% url 'account_login' %}">Login</a>
+        {% endif %}
+      </li>
+      {% if user.is_authenticated %}
+        <li><a href="{% url 'account_logout' %}">Logout</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+</header>
+
 
   <main class="profile-page">
     <section class="profile-banner">
