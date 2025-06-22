@@ -2,135 +2,140 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Buy Product</title>
+  <!-- load via CDN in your template head -->
+<script src="https://unpkg.com/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script>
+
   {% load static %}
   <link rel="stylesheet" href="{% static 'store/css/style.css' %}">
 </head>
 <body>
 
-<header>
-  <h1 class="heading">Buy Product</h1>
-  <nav class="breadcrumb">
-    <a href="{% url 'store:index' %}">Home</a> &gt;
-    <a href="{% url 'store:product_list' %}">Products</a> &gt;
-    <span>{{ product.name }}</span>
-  </nav>
-</header>
+  <header>
+    <h1 class="heading">Buy Product</h1>
+    <nav class="breadcrumb">
+      <a href="{% url 'store:index' %}">Home</a> &gt;
+      <a href="{% url 'store:product_list' %}">Products</a> &gt;
+      <span>{{ product.name }}</span>
+    </nav>
+  </header>
 
-<div class="product-details">
-  <h1><strong><em>{{ product.name }}</em></strong></h1>
+  <div class="product-details">
+    <h1><strong><em>{{ product.name }}</em></strong></h1>
+    <p><strong>Price:</strong> ${{ product.price }}</p>
 
-  <div class="product-slider">
-    <div class="product-slides">
-      {% if product.image %}
-        <img
-          src="{% static 'store/gallery/'|add:product.image %}"
-          alt="{{ product.name }}"
-          onclick="zoomImage(this)"
-        >
-      {% else %}
-        <img
-          src="{% static 'store/gallery/default.jpg' %}"
-          alt="No image"
-          onclick="zoomImage(this)"
-        >
-      {% endif %}
+    <!-- IMAGE SLIDER -->
+    <div class="product-slider">
+      <button class="prev">‹</button>
+      <div class="product-slides">
+        {% if product.images.all %}
+          {% for img in product.images.all %}
+            <img
+              class="slide"
+              src="{% static 'store/gallery/'|add:img.filename %}"
+              alt="{{ product.name }} {{ forloop.counter }}"
+              onclick="zoomImage(this)"
+            >
+          {% endfor %}
+        {% else %}
+          <img
+            class="slide"
+            src="{% static 'store/gallery/'|add:product.image|default:'default.jpg' %}"
+            alt="{{ product.name }}"
+            onclick="zoomImage(this)"
+          >
+        {% endif %}
+      </div>
+      <button class="next">›</button>
     </div>
+    <!-- /IMAGE SLIDER -->
+
+    {% if product.stock > 0 %}
+      <form
+        class="buy-form"
+        method="post"
+        action="{% url 'cart:add_to_cart' product.id %}"
+      >
+        {% csrf_token %}
+        <label for="quantity-input">Quantity:</label>
+        <input
+          type="number"
+          id="quantity-input"
+          name="quantity"
+          min="1"
+          max="{{ product.stock }}"
+          value="1"
+        >
+        <label for="size-select">Choose Size:</label>
+        <select name="size" id="size-select">
+          <option value="6">Size 6</option>
+          <option value="7">Size 7</option>
+          <option value="8">Size 8</option>
+          <option value="9">Size 9</option>
+          <option value="10">Size 10</option>
+        </select>
+        <button type="submit">Add to Cart</button>
+      </form>
+    {% else %}
+      <p class="out-of-stock"><strong>Sorry, this product is out of stock.</strong></p>
+    {% endif %}
   </div>
 
-  <p><strong>Price:</strong> ${{ product.price }}</p>
+  <a href="{% url 'cart:view_cart' %}" class="view-cart-button">View Cart</a>
 
-  {% if product.stock > 0 %}
-    <form
-      class="buy-form"
-      method="post"
-      action="{% url 'cart:add_to_cart' product.id %}"
-    >
-      {% csrf_token %}
+  <!-- REVIEWS -->
+  <div class="reviews-section">
+    <h2>Customer Reviews</h2>
+    {% if product.reviews.all %}
+      {% for review in product.reviews.all %}
+        <div class="review">
+          <p>
+            <strong>{{ review.user.username|default:"Anonymous" }}</strong>
+             — {{ review.created_at|date:"F j, Y, H:i" }}
+          </p>
+          <p>Rating: {{ review.rating }} / 5</p>
+          <p>{{ review.comment }}</p>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>No reviews yet. Be the first to review this product!</p>
+    {% endif %}
+  </div>
 
-      <label for="quantity-input">Quantity:</label>
-      <input
-        type="number"
-        id="quantity-input"
-        name="quantity"
-        min="1"
-        max="{{ product.stock }}"
-        value="1"
-      >
+  <!-- LEAVE A REVIEW -->
+  <div class="review-form-section">
+    <h2>Leave a Review</h2>
+    {% if user.is_authenticated %}
+      <form method="post">
+        {% csrf_token %}
+        {{ review_form.non_field_errors }}
+        <div class="form-field">
+          {{ review_form.rating.label_tag }}<br>
+          {{ review_form.rating }}<br>
+          {{ review_form.rating.errors }}
+        </div>
+        <div class="form-field">
+          {{ review_form.comment.label_tag }}<br>
+          {{ review_form.comment }}<br>
+          {{ review_form.comment.errors }}
+        </div>
+        <button type="submit" name="submit_review">Submit Review</button>
+      </form>
+    {% else %}
+      <p>
+        Please
+        <a href="{% url 'account_login' %}?next={{ request.path }}">sign in</a>
+        to leave a review.
+      </p>
+    {% endif %}
+  </div>
 
-      <label for="size-select">Choose Size:</label>
-      <select name="size" id="size-select">
-        <option value="6">Size 6</option>
-        <option value="7">Size 7</option>
-        <option value="8">Size 8</option>
-        <option value="9">Size 9</option>
-        <option value="10">Size 10</option>
-      </select>
-
-      <button type="submit">Add to Cart</button>
-    </form>
-  {% else %}
-    <p class="out-of-stock"><strong>Sorry, this product is out of stock.</strong></p>
-  {% endif %}
-</div>
-
-<a href="{% url 'cart:view_cart' %}" class="view-cart-button">View Cart</a>
-
-<!-- Reviews Section -->
-<div class="reviews-section">
-  <h2>Customer Reviews</h2>
-  {% if reviews %}
-    {% for review in reviews %}
-      <div class="review">
-        <p>
-          <strong>{{ review.user.username|default:"Anonymous" }}</strong>
-          &mdash; {{ review.created_at|date:"F j, Y, H:i" }}
-        </p>
-        <p>Rating: {{ review.rating }} / 5</p>
-        <p>{{ review.comment }}</p>
-      </div>
-    {% endfor %}
-  {% else %}
-    <p>No reviews yet. Be the first to review this product!</p>
-  {% endif %}
-</div>
-
-<!-- Leave a Review Section -->
-<div class="review-form-section">
-  <h2>Leave a Review</h2>
-  {% if user.is_authenticated %}
-    <form method="post" action="">
-      {% csrf_token %}
-      {{ review_form.non_field_errors }}
-      <div class="form-field">
-        {{ review_form.rating.label_tag }}<br>
-        {{ review_form.rating }}<br>
-        {{ review_form.rating.errors }}
-      </div>
-      <div class="form-field">
-        {{ review_form.comment.label_tag }}<br>
-        {{ review_form.comment }}<br>
-        {{ review_form.comment.errors }}
-      </div>
-      <button type="submit" name="submit_review">Submit Review</button>
-    </form>
-  {% else %}
-    <p>
-      Please
-      <a href="{% url 'account_login' %}?next={{ request.path }}">sign in</a>
-      to leave a review.
-    </p>
-  {% endif %}
-</div>
-
-<script>
-  function zoomImage(image) {
-    window.open(image.src, "_blank");
-  }
-</script>
-<script src="{% static 'store/js/script.js' %}" defer></script>
-
+  <script>
+    function zoomImage(img) {
+      window.open(img.src, "_blank");
+    }
+  </script>
+  <script src="{% static 'store/js/script.js' %}" defer></script>
 </body>
 </html>
-```

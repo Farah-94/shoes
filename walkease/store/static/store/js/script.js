@@ -62,3 +62,58 @@ document.addEventListener("DOMContentLoaded", function() {
       alert("Oops! There was a problem submitting your form");
     });
   });
+
+
+
+// ---------------buy_product-------------------
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  // ----- Slider Functionality -----
+  const slider  = document.querySelector('.product-slider');
+  if (slider) {
+    const slides  = slider.querySelectorAll('.slide');
+    const prevBtn = slider.querySelector('.prev');
+    const nextBtn = slider.querySelector('.next');
+    let   current = 0;
+
+    function showSlide(idx) {
+      slides.forEach((slide, i) => {
+        slide.style.display = i === idx ? 'block' : 'none';
+      });
+    }
+
+    function nextSlide() {
+      current = (current + 1) % slides.length;
+      showSlide(current);
+    }
+
+    function prevSlide() {
+      current = (current - 1 + slides.length) % slides.length;
+      showSlide(current);
+    }
+
+    if (slides.length) {
+      showSlide(current);
+      if (slides.length > 1) {
+        nextBtn && nextBtn.addEventListener('click', nextSlide);
+        prevBtn && prevBtn.addEventListener('click', prevSlide);
+      }
+    }
+  }
+
+  // ----- Click-to-Zoom Functionality -----
+  document
+    .querySelectorAll('.product-slides img')
+    .forEach(img => {
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', () => {
+        window.open(img.src, '_blank');
+      });
+    });
+});
+
+

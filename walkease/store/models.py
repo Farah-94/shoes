@@ -1,3 +1,6 @@
+# walkease/store/models.py
+
+import os
 from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
@@ -5,7 +8,15 @@ from django.utils.text import slugify
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=120, unique=True, blank=True)
-    # … your existing Category methods …
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
 
 class Product(models.Model):
     category    = models.ForeignKey(
@@ -20,28 +31,53 @@ class Product(models.Model):
     description = models.TextField()
     stock       = models.PositiveIntegerField(default=0)
 
-    # ← Replace ImageField with CharField for static filenames
+    # Primary image filename (fallback if no inline images are set)
     image = models.CharField(
         max_length=255,
         blank=True,
-        help_text="Filename in store/gallery, e.g. 'crocs.jpg'"
+        help_text="Main filename in store/gallery/, e.g. 'crocs_front.jpg'"
     )
 
     def __str__(self):
         return self.name
-    
 
 
-    
+class ProductImage(models.Model):
+    product = models.ForeignKey(
+        Product,
+        related_name="images",
+        on_delete=models.CASCADE
+    )
+    filename = models.FilePathField(
+        path=os.path.join(
+            settings.BASE_DIR,
+            "walkease", "store", "static", "store", "gallery"
+        ),
+        match=r".*\.(jpg|jpeg|png|gif)$",
+        recursive=False,
+        blank=True,
+        help_text="Select a file from store/static/store/gallery/"
+    )
+
+    def __str__(self):
+        # show only the basename, not full path
+        return f"{self.product.name} → {os.path.basename(self.filename)}"
+
 
 class Review(models.Model):
     RATING_CHOICES = [(i, f"{i} Star{'' if i == 1 else 's'}") for i in range(1, 6)]
 
-    product    = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="reviews")
-    user       = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                   on_delete=models.SET_NULL,
-                                   null=True,
-                                   blank=True)
+    product    = models.ForeignKey(
+                     Product,
+                     on_delete=models.CASCADE,
+                     related_name="reviews"
+                 )
+    user       = models.ForeignKey(
+                     settings.AUTH_USER_MODEL,
+                     on_delete=models.SET_NULL,
+                     null=True,
+                     blank=True
+                 )
     rating     = models.IntegerField(choices=RATING_CHOICES)
     comment    = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
