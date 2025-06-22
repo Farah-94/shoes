@@ -26,31 +26,34 @@
     <p><strong>Price:</strong> ${{ product.price }}</p>
 
     <!-- IMAGE SLIDER -->
-   {% load static file_utils %}
+ 
+
+{% load static file_utils %}
 
 <div class="product-slider">
   <button class="prev">‹</button>
   <div class="product-slides">
-    {% if product.images.all %}
-      {% for img in product.images.all %}
-        <img
-          class="slide"
-          src="{% static 'store/gallery/' %}{{ img.filename|basename }}"
-          alt="{{ product.name }} {{ forloop.counter }}"
-          style="cursor: zoom-in"
-        />
-      {% endfor %}
-    {% else %}
+    {# 1️⃣ Primary image (if set) #}
+    {% if product.image %}
       <img
         class="slide"
-        src="{% static 'store/gallery/' %}{{ product.image|basename|default:'default.jpg' }}"
-        alt="{{ product.name }}"
-        style="cursor: zoom-in"
+        src="{% static 'store/gallery/' %}{{ product.image|basename }}"
+        alt="{{ product.name }} (primary)"
       />
     {% endif %}
+
+    {# 2️⃣ Then all gallery images #}
+    {% for img in product.images.all %}
+      <img
+        class="slide"
+        src="{% static 'store/gallery/' %}{{ img.filename|basename }}"
+        alt="{{ product.name }} (gallery {{ forloop.counter }})"
+      />
+    {% endfor %}
   </div>
   <button class="next">›</button>
 </div>
+
 
 
     {% if product.stock > 0 %}
@@ -134,6 +137,11 @@
   </div>
 
 
-  <script src="{% static 'store/js/script.js' %}" defer></script>
+  {% load static %}
+<script
+  src="{% static 'store/js/script.js' %}"
+  defer
+></script>
+
 </body>
 </html>
