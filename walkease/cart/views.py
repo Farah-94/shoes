@@ -10,16 +10,20 @@ from walkease.cart.models import CartItem
 
 @login_required
 def cart_view(request):
-    """
-    Displays the user's cart.
-    Retrieves all cart items for the user and calculates the total price.
-    """
+    # Fetch user’s cart items
     cart_items = CartItem.objects.filter(user=request.user)
-    total_price = sum(item.product.price * item.quantity for item in cart_items)
-    # Debug output: print cart items count to console (remove in production)
-    print(f"User {request.user} has {cart_items.count()} items in the cart.")
-    return render(request, "cart/cart.html", {"cart_items": cart_items, "total_price": total_price})
 
+    # Compute grand total
+    total_price = sum(item.product.price * item.quantity for item in cart_items)
+
+    # Attach line‐item total for each cart item
+    for item in cart_items:
+        item.total_price = item.product.price * item.quantity
+
+    return render(request, "cart/cart.html", {
+        "cart_items":  cart_items,
+        "total_price": total_price,
+    })
 @login_required
 def add_to_cart(request, product_id):
     """

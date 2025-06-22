@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Your Cart</title>
   {% load static %}
   <link rel="stylesheet" href="{% static 'cart/css/style.css' %}">
@@ -10,7 +10,6 @@
 <body>
   <header>
     <h1>Your Cart</h1>
-{% load static %}
     <a href="{% url 'store:product_list' %}" class="back-button">
       Back to Products
     </a>
@@ -28,8 +27,6 @@
     {% if cart_items %}
       {% for item in cart_items %}
         <div class="cart-item">
-
-          {# Show exactly the ImageField you uploaded in Admin #}
           {% if item.product.image %}
             <img
               src="{{ item.product.image.url }}"
@@ -49,7 +46,7 @@
             <p>Price per item: ${{ item.product.price|floatformat:2 }}</p>
             <p>
               Total:
-              ${{ item.product.price|mul:item.quantity|floatformat:2 }}
+              ${{ item.total_price|floatformat:2 }}
             </p>
 
             <div class="cart-actions">
@@ -76,3 +73,4 @@
   </main>
 </body>
 </html>
+```
