@@ -281,11 +281,7 @@ footer {
   color: #531932;
 }
 
-/* Product Image Slider */
-.product-slider {
-  position: relative;
-  text-align: center;
-}
+
 
 .product-slides img {
   width: 100%;
@@ -294,6 +290,35 @@ footer {
 }
 
 
+/* Hide every slide by default… */
+.product-slides .slide {
+  display: none;
+}
+
+/* …but show the first one so there’s at least something visible pre-JS */
+.product-slides .slide:first-child {
+  display: block;
+}
+
+/* Optional: basic styling for nav buttons */
+.product-slider {
+  position: relative;
+  max-width: 400px;   /* adjust to your design */
+  margin: auto;
+}
+.product-slider .prev,
+.product-slider .next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+.product-slider .prev { left: 0; }
+.product-slider .next { right: 0; }
 
 
 /* Form Styles */
@@ -343,6 +368,17 @@ button[type="submit"]:hover {
   background-color: #5b4f56;
 
 }
+
+
+
+
+
+
+
+
+
+
+
 
 /* --------------------productlist----------------------- */
 */ .product-container {
