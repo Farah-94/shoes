@@ -35,6 +35,7 @@ class Product(models.Model):
     image = models.CharField(
         max_length=255,
         blank=True,
+        default='default.jpg',          # ← add this
         help_text="Main filename in store/gallery/, e.g. 'crocs_front.jpg'"
     )
 
