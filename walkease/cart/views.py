@@ -24,28 +24,32 @@ def cart_view(request):
         "cart_items":  cart_items,
         "total_price": total_price,
     })
+
 @login_required
 def add_to_cart(request, product_id):
-    """
-    Adds a product to the cart.
-    If the user is not signed in, they will be redirected to sign in.
-    After sign in, they are redirected back to view their cart.
-    """
     product = get_object_or_404(Product, id=product_id)
-    # Retrieve size from POST; default to "M" if not provided.
     size_value = request.POST.get("size", "M")
+    # ← read the requested quantity, default to 1
+    try:
+        qty = int(request.POST.get("quantity", 1))
+    except ValueError:
+        qty = 1
 
-    cart_item, created = CartItem.objects.update_or_create(
+    # find or create the cart item
+    cart_item, created = CartItem.objects.get_or_create(
         user=request.user,
         product=product,
-        defaults={"quantity": 1, "size": size_value},
+        size=size_value,
+        defaults={"quantity": qty},
     )
     if not created:
-        cart_item.quantity += 1
+        # if it already existed, bump by the requested amount
+        cart_item.quantity += qty
         cart_item.save()
 
     messages.success(request, f"{product.name} added to your cart!")
-    return redirect(reverse("cart:view_cart"))
+    return redirect("cart:view_cart")
+
 
 @login_required
 def update_cart(request, item_id, action):

@@ -4,13 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Your Cart</title>
-  {% load static %}
+  {% load static cart_extras %}
   <link rel="stylesheet" href="{% static 'cart/css/style.css' %}">
 </head>
 <body>
   <header>
     <h1>Your Cart</h1>
-
     <a href="{% url 'store:product_list' %}" class="back-button">Back to Products</a>
   </header>
 
@@ -26,11 +25,15 @@
     {% if cart_items %}
       {% for item in cart_items %}
         <div class="cart-item">
-          {% if item.product.image.name %}
-            <img
-              src="{% static item.product.image.name %}"
-              alt="{{ item.product.name }}"
-            />
+
+          {# extract filename and build static path from store/gallery #}
+          {% if item.product.image %}
+            {% with item.product.image|basename as filename %}
+              <img
+                src="{% static 'store/gallery/'|add:filename %}"
+                alt="{{ item.product.name }}"
+              />
+            {% endwith %}
           {% endif %}
 
           <div class="cart-details">
@@ -45,14 +48,18 @@
               <span>{{ item.quantity }}</span>
               <a href="{% url 'cart:update_cart' item.id 'increase' %}">➕</a>
             </div>
-            <a href="{% url 'cart:remove_from_cart' item.id %}" class="remove-btn">🗑️ Remove</a>
+            <a href="{% url 'cart:remove_from_cart' item.id %}" class="remove-btn">
+              🗑️ Remove
+            </a>
           </div>
         </div>
       {% endfor %}
 
       <div class="cart-summary">
         <h3>Cart Total: ${{ total_price|floatformat:2 }}</h3>
-        <a href="{% url 'checkout:checkout' %}" class="checkout-btn">Proceed to Checkout</a>
+        <a href="{% url 'checkout:checkout' %}" class="checkout-btn">
+          Proceed to Checkout
+        </a>
       </div>
     {% else %}
       <p>Your cart is empty.</p>
