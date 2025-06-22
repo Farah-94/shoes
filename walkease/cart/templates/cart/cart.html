@@ -27,6 +27,9 @@
     {% if cart_items %}
       {% for item in cart_items %}
         <div class="cart-item">
+          <p style="color:red; font-size:0.8rem;">
+  DEBUG IMG URL: {{ item.product.image.url }}
+</p>
           {% if item.product.image %}
             <img
               src="{{ item.product.image.url }}"
