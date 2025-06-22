@@ -4,16 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your Cart</title>
-  {% load static %}
-  {% load cart_extras %}
-
   <link rel="stylesheet" href="{% static 'cart/css/style.css' %}">
 </head>
 <body>
   <header>
     <h1>Your Cart</h1>
-    <a href="{% url 'store:product_list' %}" class="back-button">Back to Products</a>
+{% load static %}
+    <a href="{% url 'store:product_list' %}" class="back-button">
+      Back to Products
+    </a>
   </header>
+
   <main class="cart-container">
     {% if messages %}
       <div class="messages">
@@ -26,29 +27,47 @@
     {% if cart_items %}
       {% for item in cart_items %}
         <div class="cart-item">
-<img
-  src="{% static 'store/gallery/' %}{{ item.product.image|basename }}"
-  alt="{{ item.product.name }}"
-/>          <div class="cart-details">
+
+          {# Show exactly the ImageField you uploaded in Admin #}
+          {% if item.product.image %}
+            <img
+              src="{{ item.product.image.url }}"
+              alt="{{ item.product.name }}"
+            />
+          {% else %}
+            <img
+              src="{% static 'cart/images/products/placeholder.jpg' %}"
+              alt="No image available"
+            />
+          {% endif %}
+
+          <div class="cart-details">
             <h3>{{ item.product.name }}</h3>
             <p>Size: {{ item.size }}</p>
             <p>Quantity: {{ item.quantity }}</p>
             <p>Price per item: ${{ item.product.price|floatformat:2 }}</p>
-            <p>Total: ${{ item.product.price|mul:item.quantity|floatformat:2 }}</p>
-            
+            <p>
+              Total:
+              ${{ item.product.price|mul:item.quantity|floatformat:2 }}
+            </p>
 
             <div class="cart-actions">
               <a href="{% url 'cart:update_cart' item.id 'decrease' %}">➖</a>
               <span>{{ item.quantity }}</span>
               <a href="{% url 'cart:update_cart' item.id 'increase' %}">➕</a>
             </div>
-            <a href="{% url 'cart:remove_from_cart' item.id %}" class="remove-btn">🗑️ Remove</a>
+            <a href="{% url 'cart:remove_from_cart' item.id %}" class="remove-btn">
+              🗑️ Remove
+            </a>
           </div>
         </div>
       {% endfor %}
+
       <div class="cart-summary">
         <h3>Cart Total: ${{ total_price|floatformat:2 }}</h3>
-        <a href="{% url 'checkout:checkout' %}" class="checkout-btn">Proceed to Checkout</a>
+        <a href="{% url 'checkout:checkout' %}" class="checkout-btn">
+          Proceed to Checkout
+        </a>
       </div>
     {% else %}
       <p>Your cart is empty.</p>
