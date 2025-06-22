@@ -55,3 +55,9 @@ def create_payment_intent(request):
         return JsonResponse({'client_secret': intent.client_secret})
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
+
+
+@login_required
+def order_success(request):
+    # You can pull in any order info here (from session, DB, etc.)
+    return render(request, "checkout/order_success.html")

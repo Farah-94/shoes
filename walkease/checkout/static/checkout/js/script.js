@@ -1,54 +1,64 @@
-// Ensure you load Stripe.js in your HTML, then use this file
+// static/checkout/js/script.js
 
-// Replace the template variable with your actual publishable key passed from your Django view.
-const stripePublicKey = window.stripePublicKey; // This global variable should be set in the template.
-const stripe = Stripe(stripePublicKey);
+// grab keys & URLs the template set
+const stripe    = Stripe(window.stripePublicKey);
+const intentUrl = window.paymentIntentUrl;
+const successUrl = window.paymentSuccessUrl;
 
-// Function to create a PaymentIntent by calling your backend view
+// helper to read the CSRF token cookie
+function getCookie(name) {
+  let cookieValue = null;
+  document.cookie.split(';').forEach(c => {
+    const [k,v] = c.trim().split('=');
+    if (k === name) cookieValue = decodeURIComponent(v);
+  });
+  return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+
 async function createPaymentIntent() {
-  try {
-    // Make a request to your backend to create a PaymentIntent
-    const response = await fetch('/checkout/create-payment-intent/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' }
-    });
-    const data = await response.json();
-    return data.client_secret;
-  } catch (error) {
-    console.error("Error creating PaymentIntent:", error);
-  }
+  const resp = await fetch(intentUrl, {
+    method: 'POST',
+    credentials: 'same-origin',         // send cookies
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': csrftoken         // Django’s CSRF header
+    }
+  });
+  if (!resp.ok) throw new Error(await resp.text());
+  const data = await resp.json();
+  return data.client_secret;
 }
 
-// Call the function and initialize Stripe Elements
-createPaymentIntent().then(clientSecret => {
-  if (!clientSecret) {
-    console.error("No client secret returned!");
+document.addEventListener("DOMContentLoaded", async () => {
+  let clientSecret;
+  try {
+    clientSecret = await createPaymentIntent();
+  } catch (err) {
+    console.error("PaymentIntent error:", err);
+    document.getElementById('payment-message').textContent = err.message;
     return;
   }
-  
-  // Create an instance of Elements and mount the card Element
+
+  // mount Stripe’s Card Element
   const elements = stripe.elements();
-  const cardElement = elements.create('card');
-  cardElement.mount('#payment-element');
-  
-  // When the form is submitted, confirm the payment
-  const form = document.getElementById('payment-form');
-  form.addEventListener('submit', function(event) {
-    event.preventDefault();
-    stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: cardElement,
-      }
-    }).then(function(result) {
-      if (result.error) {
-        // Display error in your UI
-        document.getElementById('payment-message').textContent = result.error.message;
-      } else {
-        if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
-          // Payment was successful
-          window.location.href = "/order-success/";  // Change this URL to your actual order success path
-        }
-      }
+  const card = elements.create('card');
+  card.mount('#payment-element');
+
+  // handle the form
+  document.getElementById('payment-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    document.getElementById('submit').disabled = true;
+
+    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: { card }
     });
+
+    if (error) {
+      document.getElementById('payment-message').textContent = error.message;
+      document.getElementById('submit').disabled = false;
+    } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+      window.location.href = successUrl;
+    }
   });
 });
