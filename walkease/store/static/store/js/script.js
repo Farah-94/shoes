@@ -1,126 +1,95 @@
-console.log('🛠️ script.js loaded'); 
-
-
-document.addEventListener("DOMContentLoaded", () => {
-  const slides = document.querySelectorAll(".slide");
-  let currentSlide = 0;
-  const slideInterval = setInterval(nextSlide, 3000); // changes slide every 3 seconds
-
-  function nextSlide() {
-    slides[currentSlide].classList.remove("active");
-    currentSlide = (currentSlide + 1) % slides.length;
-    slides[currentSlide].classList.add("active");
-  }
-});
-
-
-document.addEventListener("DOMContentLoaded", function() {
-      const menuButton = document.getElementById("menu-button");
-      const menuDropdown = document.getElementById("menu-dropdown");
-
-      menuButton.addEventListener("click", function(event) {
-        event.stopPropagation(); // Prevent the click from propagating to the window
-        menuDropdown.classList.toggle("show");
-      });
-
-      // Optional: Hide dropdown when clicking anywhere outside the menu
-      window.addEventListener("click", function() {
-        if (menuDropdown.classList.contains("show")) {
-          menuDropdown.classList.remove("show");
-        }
-      });
-    });
-
-
-   
-  document.getElementById("contactForm").addEventListener("submit", function(e) {
-    e.preventDefault(); // Prevent the default form submission.
-
-    const form = this;
-    const formData = new FormData(form);
-
-    fetch(form.action, {
-      method: "POST",
-      body: formData,
-      headers: {
-        Accept: "application/json"
-      }
-    })
-    .then(response => {
-      if (response.ok) {
-        alert("Thanks for your message!");
-        form.reset(); // Clear the form on success.
-      } else {
-        response.json().then(data => {
-          if (Object.hasOwn(data, 'errors')) {
-            alert("Oops! " + data["errors"].map(error => error["message"]).join(", "));
-          } else {
-            alert("Oops! There was a problem submitting your form");
-          }
-        });
-      }
-    })
-    .catch(error => {
-      console.error("Error submitting form:", error);
-      alert("Oops! There was a problem submitting your form");
-    });
-  });
-
-
-
-// ---------------buy_product-------------------
-
-
+// static/store/js/script.js
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('🥾 script loaded, DOM ready');
-
-  const slider  = document.querySelector('.product-slider');
-  console.log('🥾 Found .product-slider?', !!slider);
-  if (!slider) return;
-
-  const slides  = Array.from(slider.querySelectorAll('.slide'));
-  const prevBtn = slider.querySelector('.prev');
-  const nextBtn = slider.querySelector('.next');
-  let   current = 0;
-
-  console.log(`🥾 slides: ${slides.length}`, slides);
-  console.log(`🥾 prevBtn?`, prevBtn, `nextBtn?`, nextBtn);
-
-  const showSlide = i => {
-    console.log('🥾 showSlide(', i, ')');
-    slides.forEach((s, idx) => {
-      s.style.display = idx === i ? 'block' : 'none';
-    });
-  };
-
-  const nextSlide = () => {
-    console.log('🥾 nextSlide clicked');
-    current = (current + 1) % slides.length;
-    showSlide(current);
-  };
-  const prevSlide = () => {
-    console.log('🥾 prevSlide clicked');
-    current = (current - 1 + slides.length) % slides.length;
-    showSlide(current);
-  };
-
-  if (slides.length) {
-    showSlide(current);
-    if (slides.length > 1) {
-      console.log('🥾 Attaching click handlers');
-      nextBtn?.addEventListener('click', nextSlide);
-      prevBtn?.addEventListener('click', prevSlide);
-    }
+  // 1) AUTO-ROTATING BANNER SLIDER (index.html)
+  const bannerContainer = document.querySelector('.slider-container');
+  if (bannerContainer) {
+    const bannerSlides = Array.from(bannerContainer.querySelectorAll('.slide'));
+    let bannerIndex = 0;
+    // show only the first slide
+    bannerSlides.forEach((s, i) => s.classList.toggle('active', i === 0));
+    setInterval(() => {
+      bannerSlides[bannerIndex].classList.remove('active');
+      bannerIndex = (bannerIndex + 1) % bannerSlides.length;
+      bannerSlides[bannerIndex].classList.add('active');
+    }, 3000);
   }
 
+  // 2) MENU DROPDOWN TOGGLE
+  const menuButton   = document.getElementById('menu-button');
+  const menuDropdown = document.getElementById('menu-dropdown');
+  if (menuButton && menuDropdown) {
+    menuButton.addEventListener('click', e => {
+      e.stopPropagation();
+      menuDropdown.classList.toggle('show');
+    });
+    window.addEventListener('click', () => {
+      menuDropdown.classList.remove('show');
+    });
+  }
 
-  // Click-to-zoom: open whatever slide you click in a new tab
-  slides.forEach(img => {
-    img.style.cursor = 'zoom-in';
-    img.addEventListener('click', () => window.open(img.src, '_blank'));
-  });
+  // 3) CONTACT FORM AJAX SUBMISSION
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const formData = new FormData(contactForm);
+      fetch(contactForm.action, {
+        method: 'POST',
+        body: formData,
+        headers: { Accept: 'application/json' }
+      })
+      .then(res => {
+        if (res.ok) {
+          alert('Thanks for your message!');
+          contactForm.reset();
+        } else {
+          return res.json().then(data => {
+            const msg = data.errors
+              ? data.errors.map(err => err.message).join(', ')
+              : 'There was a problem submitting your form';
+            alert('Oops! ' + msg);
+          });
+        }
+      })
+      .catch(() => alert('Oops! There was a problem submitting your form'));
+    });
+  }
+
+  // 4) PRODUCT IMAGE SLIDER (buy_product.html)
+  const productSlider = document.querySelector('.product-slider');
+  if (productSlider) {
+    const slides  = Array.from(productSlider.querySelectorAll('.slide'));
+    const prevBtn = productSlider.querySelector('.prev');
+    const nextBtn = productSlider.querySelector('.next');
+    let   current = 0;
+
+    // hide all except the first slide
+    slides.forEach((s, i) => {
+      s.style.display = i === 0 ? 'block' : 'none';
+    });
+
+    const showSlide = idx => {
+      slides.forEach((s, i) => {
+        s.style.display = i === idx ? 'block' : 'none';
+      });
+    };
+
+    if (slides.length > 1) {
+      nextBtn?.addEventListener('click', () => {
+        current = (current + 1) % slides.length;
+        showSlide(current);
+      });
+      prevBtn?.addEventListener('click', () => {
+        current = (current - 1 + slides.length) % slides.length;
+        showSlide(current);
+      });
+    }
+
+    // click-to-zoom behavior
+    slides.forEach(img => {
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', () => window.open(img.src, '_blank'));
+    });
+  }
 });
-
-
-
