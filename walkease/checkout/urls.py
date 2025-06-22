@@ -8,6 +8,6 @@ app_name = "checkout"
 urlpatterns = [
   
 
-
+    path('', views.checkout, name='checkout'),
     path('create-payment-intent/', create_payment_intent, name='create-payment-intent'),
 ]

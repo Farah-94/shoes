@@ -26,8 +26,10 @@
     {% if cart_items %}
       {% for item in cart_items %}
         <div class="cart-item">
-          <img src="{% static 'cart/images/products/tshirt.jpg' %}" alt="{{ item.product.name }}">
-          <div class="cart-details">
+<img
+  src="{% static 'store/gallery/' %}{{ item.product.image|basename }}"
+  alt="{{ item.product.name }}"
+/>          <div class="cart-details">
             <h3>{{ item.product.name }}</h3>
             <p>Size: {{ item.size }}</p>
             <p>Quantity: {{ item.quantity }}</p>
