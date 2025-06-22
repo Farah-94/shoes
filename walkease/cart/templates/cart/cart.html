@@ -10,9 +10,8 @@
 <body>
   <header>
     <h1>Your Cart</h1>
-    <a href="{% url 'store:product_list' %}" class="back-button">
-      Back to Products
-    </a>
+
+    <a href="{% url 'store:product_list' %}" class="back-button">Back to Products</a>
   </header>
 
   <main class="cart-container">
@@ -27,18 +26,10 @@
     {% if cart_items %}
       {% for item in cart_items %}
         <div class="cart-item">
-          <p style="color:red; font-size:0.8rem;">
-  DEBUG IMG URL: {{ item.product.image.url }}
-</p>
-          {% if item.product.image %}
+          {% if item.product.image.name %}
             <img
-              src="{{ item.product.image.url }}"
+              src="{% static item.product.image.name %}"
               alt="{{ item.product.name }}"
-            />
-          {% else %}
-            <img
-              src="{% static 'cart/images/products/placeholder.jpg' %}"
-              alt="No image available"
             />
           {% endif %}
 
@@ -47,28 +38,21 @@
             <p>Size: {{ item.size }}</p>
             <p>Quantity: {{ item.quantity }}</p>
             <p>Price per item: ${{ item.product.price|floatformat:2 }}</p>
-            <p>
-              Total:
-              ${{ item.total_price|floatformat:2 }}
-            </p>
+            <p>Total: ${{ item.total_price|floatformat:2 }}</p>
 
             <div class="cart-actions">
               <a href="{% url 'cart:update_cart' item.id 'decrease' %}">➖</a>
               <span>{{ item.quantity }}</span>
               <a href="{% url 'cart:update_cart' item.id 'increase' %}">➕</a>
             </div>
-            <a href="{% url 'cart:remove_from_cart' item.id %}" class="remove-btn">
-              🗑️ Remove
-            </a>
+            <a href="{% url 'cart:remove_from_cart' item.id %}" class="remove-btn">🗑️ Remove</a>
           </div>
         </div>
       {% endfor %}
 
       <div class="cart-summary">
         <h3>Cart Total: ${{ total_price|floatformat:2 }}</h3>
-        <a href="{% url 'checkout:checkout' %}" class="checkout-btn">
-          Proceed to Checkout
-        </a>
+        <a href="{% url 'checkout:checkout' %}" class="checkout-btn">Proceed to Checkout</a>
       </div>
     {% else %}
       <p>Your cart is empty.</p>
@@ -76,4 +60,3 @@
   </main>
 </body>
 </html>
-```
