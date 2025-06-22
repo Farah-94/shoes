@@ -46,7 +46,7 @@
       {% endfor %}
       <div class="cart-summary">
         <h3>Cart Total: ${{ total_price|floatformat:2 }}</h3>
-        <a href="{% url 'store:checkout' %}" class="checkout-btn">Proceed to Checkout</a>
+        <a href="{% url 'checkout:checkout' %}" class="checkout-btn">Proceed to Checkout</a>
       </div>
     {% else %}
       <p>Your cart is empty.</p>
