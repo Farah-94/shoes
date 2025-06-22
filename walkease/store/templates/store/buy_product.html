@@ -26,30 +26,32 @@
     <p><strong>Price:</strong> ${{ product.price }}</p>
 
     <!-- IMAGE SLIDER -->
-    <div class="product-slider">
-      <button class="prev">‹</button>
-      <div class="product-slides">
-        {% if product.images.all %}
-          {% for img in product.images.all %}
-            <img
-              class="slide"
-              src="{% static 'store/gallery/'|add:img.filename %}"
-              alt="{{ product.name }} {{ forloop.counter }}"
-              onclick="zoomImage(this)"
-            >
-          {% endfor %}
-        {% else %}
-          <img
-            class="slide"
-            src="{% static 'store/gallery/'|add:product.image|default:'default.jpg' %}"
-            alt="{{ product.name }}"
-            onclick="zoomImage(this)"
-          >
-        {% endif %}
-      </div>
-      <button class="next">›</button>
-    </div>
-    <!-- /IMAGE SLIDER -->
+   {% load static file_utils %}
+
+<div class="product-slider">
+  <button class="prev">‹</button>
+  <div class="product-slides">
+    {% if product.images.all %}
+      {% for img in product.images.all %}
+        <img
+          class="slide"
+          src="{% static 'store/gallery/' %}{{ img.filename|basename }}"
+          alt="{{ product.name }} {{ forloop.counter }}"
+          style="cursor: zoom-in"
+        />
+      {% endfor %}
+    {% else %}
+      <img
+        class="slide"
+        src="{% static 'store/gallery/' %}{{ product.image|basename|default:'default.jpg' }}"
+        alt="{{ product.name }}"
+        style="cursor: zoom-in"
+      />
+    {% endif %}
+  </div>
+  <button class="next">›</button>
+</div>
+
 
     {% if product.stock > 0 %}
       <form
@@ -131,11 +133,7 @@
     {% endif %}
   </div>
 
-  <script>
-    function zoomImage(img) {
-      window.open(img.src, "_blank");
-    }
-  </script>
+
   <script src="{% static 'store/js/script.js' %}" defer></script>
 </body>
 </html>

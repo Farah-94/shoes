@@ -71,49 +71,45 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
+// static/store/js/script.js
 document.addEventListener('DOMContentLoaded', () => {
-  // ----- Slider Functionality -----
-  const slider  = document.querySelector('.product-slider');
-  if (slider) {
-    const slides  = slider.querySelectorAll('.slide');
-    const prevBtn = slider.querySelector('.prev');
-    const nextBtn = slider.querySelector('.next');
-    let   current = 0;
+  const slider = document.querySelector('.product-slider');
+  if (!slider) return;  // bail out if there’s no slider on this page
 
-    function showSlide(idx) {
-      slides.forEach((slide, i) => {
-        slide.style.display = i === idx ? 'block' : 'none';
+  // Grab slides and nav buttons
+  const slides  = Array.from(slider.querySelectorAll('.slide'));
+  const prevBtn = slider.querySelector('.prev');
+  const nextBtn = slider.querySelector('.next');
+  let   current = 0;
+
+  // Show only the slide at index `i`
+  const showSlide = i => {
+    slides.forEach((s, idx) => {
+      s.style.display = idx === i ? 'block' : 'none';
+    });
+  };
+
+  // Wire up arrow clicks if you have more than one slide
+  if (slides.length) {
+    showSlide(current);
+    if (slides.length > 1) {
+      prevBtn?.addEventListener('click', () => {
+        current = (current - 1 + slides.length) % slides.length;
+        showSlide(current);
       });
-    }
-
-    function nextSlide() {
-      current = (current + 1) % slides.length;
-      showSlide(current);
-    }
-
-    function prevSlide() {
-      current = (current - 1 + slides.length) % slides.length;
-      showSlide(current);
-    }
-
-    if (slides.length) {
-      showSlide(current);
-      if (slides.length > 1) {
-        nextBtn && nextBtn.addEventListener('click', nextSlide);
-        prevBtn && prevBtn.addEventListener('click', prevSlide);
-      }
+      nextBtn?.addEventListener('click', () => {
+        current = (current + 1) % slides.length;
+        showSlide(current);
+      });
     }
   }
 
-  // ----- Click-to-Zoom Functionality -----
-  document
-    .querySelectorAll('.product-slides img')
-    .forEach(img => {
-      img.style.cursor = 'zoom-in';
-      img.addEventListener('click', () => {
-        window.open(img.src, '_blank');
-      });
-    });
+  // Click-to-zoom: open whatever slide you click in a new tab
+  slides.forEach(img => {
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', () => window.open(img.src, '_blank'));
+  });
 });
+
 
 
