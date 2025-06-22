@@ -69,40 +69,48 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-
-
-// static/store/js/script.js
 document.addEventListener('DOMContentLoaded', () => {
-  const slider = document.querySelector('.product-slider');
-  if (!slider) return;  // bail out if there’s no slider on this page
+  console.log('🥾 script loaded, DOM ready');
 
-  // Grab slides and nav buttons
+  const slider  = document.querySelector('.product-slider');
+  console.log('🥾 Found .product-slider?', !!slider);
+  if (!slider) return;
+
   const slides  = Array.from(slider.querySelectorAll('.slide'));
   const prevBtn = slider.querySelector('.prev');
   const nextBtn = slider.querySelector('.next');
   let   current = 0;
 
-  // Show only the slide at index `i`
+  console.log(`🥾 slides: ${slides.length}`, slides);
+  console.log(`🥾 prevBtn?`, prevBtn, `nextBtn?`, nextBtn);
+
   const showSlide = i => {
+    console.log('🥾 showSlide(', i, ')');
     slides.forEach((s, idx) => {
       s.style.display = idx === i ? 'block' : 'none';
     });
   };
 
-  // Wire up arrow clicks if you have more than one slide
+  const nextSlide = () => {
+    console.log('🥾 nextSlide clicked');
+    current = (current + 1) % slides.length;
+    showSlide(current);
+  };
+  const prevSlide = () => {
+    console.log('🥾 prevSlide clicked');
+    current = (current - 1 + slides.length) % slides.length;
+    showSlide(current);
+  };
+
   if (slides.length) {
     showSlide(current);
     if (slides.length > 1) {
-      prevBtn?.addEventListener('click', () => {
-        current = (current - 1 + slides.length) % slides.length;
-        showSlide(current);
-      });
-      nextBtn?.addEventListener('click', () => {
-        current = (current + 1) % slides.length;
-        showSlide(current);
-      });
+      console.log('🥾 Attaching click handlers');
+      nextBtn?.addEventListener('click', nextSlide);
+      prevBtn?.addEventListener('click', prevSlide);
     }
   }
+
 
   // Click-to-zoom: open whatever slide you click in a new tab
   slides.forEach(img => {
