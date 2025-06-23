@@ -1,77 +1,4 @@
-/* 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
-body {
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
-  color: #333;
-  background-color: #f5f5f5;
-}
-
-
-header {
-  background-color: #333;
-  color: #fff;
-  padding: 1rem 0;
-}
-
-header nav ul {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-}
-
-header nav ul li a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-header nav ul li a:hover {
-  text-decoration: underline;
-}
-
-
-.main-container,
-.checkout-container,
-.order-success-container {
-  background: #fff;
-  padding: 2rem;
-  margin: 2rem auto;
-  max-width: 800px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-
-#payment-form {
-  margin-top: 1rem;
-}
-
-#payment-form label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-}
-
-#payment-form input[type="text"],
-#payment-form input[type="number"],
-#payment-form input[type="email"],
-#payment-form input[type="password"] {
-  width: 100%;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;} */
-
-
-  /* checkout/static/checkout/css/style.css */
-
-/* Color palette */
 :root {
   --bg: #ffffff;
   --black: #000000;
@@ -259,5 +186,164 @@ footer {
   .order-summary li {
     flex-direction: column;
     gap: 0.25rem;
+  }
+}
+/* ----------order_success------------ */
+/* checkout/static/checkout/css/style.css */
+
+/* Color & sizing variables */
+:root {
+  --bg: #ffffff;
+  --black: #000000;
+  --gray: #444444;
+  --pink: #e91e63;
+  --pink-dark: #c2185b;
+  --border: #eeeeee;
+  --radius: 4px;
+  --max-width: 600px;
+}
+
+/* Global reset & typography */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background: var(--bg);
+  color: var(--gray);
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+header {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem;
+}
+header nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+}
+header nav a {
+  color: var(--black);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+header nav a:hover {
+  color: var(--pink);
+}
+
+/* Order Success Page Container */
+.order-success-container {
+  flex: 1;
+  max-width: var(--max-width);
+  width: 90%;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+/* Main heading and paragraph */
+.order-success-container h1 {
+  font-family: 'Lora', serif;
+  font-size: 2rem;
+  color: var(--black);
+  margin-bottom: 1rem;
+}
+.order-success-container p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Order Details */
+.order-details {
+  text-align: left;
+  margin-bottom: 2rem;
+}
+.order-details h2,
+.order-details h3 {
+  font-family: 'Lora', serif;
+  color: var(--black);
+  margin-bottom: 0.75rem;
+}
+.order-details p {
+  margin-bottom: 0.5rem;
+}
+.order-details ul {
+  list-style: none;
+  margin-top: 0.5rem;
+}
+.order-details li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.order-details li:last-child {
+  border-bottom: none;
+}
+.order-details strong {
+  color: var(--black);
+}
+
+/* Action Buttons */
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.actions .btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.actions .btn-profile {
+  background: var(--pink);
+}
+.actions .btn-profile:hover {
+  background: var(--pink-dark);
+}
+.actions .btn-home {
+  background: var(--black);
+}
+.actions .btn-home:hover {
+  background: #333333;
+}
+
+/* Footer */
+footer {
+  background: var(--black);
+  color: #ffffff;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .order-success-container {
+    width: 95%;
+    padding: 0.75rem;
+  }
+  .actions {
+    flex-direction: column;
+  }
+  .actions .btn {
+    width: 100%;
+    text-align: center;
   }
 }
