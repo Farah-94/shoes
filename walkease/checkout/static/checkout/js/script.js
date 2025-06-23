@@ -1,11 +1,11 @@
 // static/checkout/js/script.js
 
-// Grab the Stripe key and URLs injected by your template
-const stripe       = Stripe(window.stripePublicKey);
-const intentUrl    = window.paymentIntentUrl;
-const successUrl   = window.paymentSuccessUrl;
+// 0) Initialize Stripe with the publishable key your template injected
+const stripe     = Stripe(window.stripePublicKey);
+const intentUrl  = window.paymentIntentUrl;
+const successUrl = window.paymentSuccessUrl;
 
-// Helper to read Django’s CSRF token from cookies
+// 1) Helper to read Django’s CSRF token from cookies
 function getCookie(name) {
   let cookieValue = null;
   document.cookie.split(';').forEach(c => {
@@ -16,11 +16,11 @@ function getCookie(name) {
 }
 const csrftoken = getCookie('csrftoken');
 
-// Call your backend to create a PaymentIntent and return its client_secret
+// 2) Ask your backend to create a PaymentIntent
 async function createPaymentIntent() {
   const resp = await fetch(intentUrl, {
     method: 'POST',
-    credentials: 'same-origin',      // ensures cookies (including CSRF) are sent
+    credentials: 'same-origin',   // send cookies, including CSRF
     headers: {
       'Content-Type': 'application/json',
       'X-CSRFToken': csrftoken
@@ -29,11 +29,11 @@ async function createPaymentIntent() {
   if (!resp.ok) {
     throw new Error(`PaymentIntent error: ${await resp.text()}`);
   }
-  const data = await resp.json();
-  return data.client_secret;
+  const { client_secret: clientSecret } = await resp.json();
+  return clientSecret;
 }
 
-// Main entry point
+// 3) Main entry point: run after the DOM is ready
 document.addEventListener("DOMContentLoaded", async () => {
   let clientSecret;
   try {
@@ -44,23 +44,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  // 1) Initialize Stripe Elements with the client secret
+  // 4) Initialize Stripe Elements with the client secret
   const elements = stripe.elements({ clientSecret });
 
-  // 2) Mount the Payment Element into your form
+  // 5) Mount the all-in-one Payment Element
   const paymentElement = elements.create('payment');
   paymentElement.mount('#payment-element');
 
-  // 3) Handle form submission
+  // 6) Handle your form submission
   const form = document.getElementById('payment-form');
-  form.addEventListener('submit', async (e) => {
+  form.addEventListener('submit', async e => {
     e.preventDefault();
     document.getElementById('submit').disabled = true;
 
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        // Stripe will redirect here on successful payment
         return_url: successUrl
       }
     });
@@ -69,6 +68,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       document.getElementById('payment-message').textContent = error.message;
       document.getElementById('submit').disabled = false;
     }
-    // On success, Stripe auto-redirects to successUrl
+    // On success, Stripe.js automatically redirects to return_url
   });
 });
