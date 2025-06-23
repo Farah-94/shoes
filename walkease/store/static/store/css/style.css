@@ -604,27 +604,6 @@ button[type="submit"]:hover {
   }
 }
 
-/* ====== Rating alignment ====== */
-.product-listing-page .review-form-section input[type="radio"],
-.product-listing-page .review-form-section input[type="checkbox"] {
-  /* remove odd top-margin and align to middle of label text */
-  margin: 0 0.5rem 0 0;
-  vertical-align: middle;
-  transform: translateY(1px);
-}
-
-.product-listing-page .review-form-section label {
-  /* inline flex lets us vertically center label text and the tick box */
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;       /* space between box and text */
-  margin-right: 1rem; /* space between rating options */
-}
-
-/* if your form-field wrappers need a little breathing room: */
-.product-listing-page .review-form-section .form-field {
-  margin-bottom: 1rem;
-}
 
 
 
