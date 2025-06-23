@@ -37,14 +37,14 @@
       Profile
     </a>
 
-    <!-- Logout Link -->
-    <a href="{% url 'account_logout' %}" title="Logout">
+    <!-- Logout Link: now uses cart:account_logout -->
+    <a href="{% url 'cart:account_logout' %}" title="Logout">
       <i class="fa-solid fa-arrow-right-from-bracket"></i>
       Logout
     </a>
   {% else %}
-    <!-- Login Link -->
-    <a href="{% url 'account_login' %}" title="Sign In">
+    <!-- Sign In Link: now uses cart:account_login -->
+    <a href="{% url 'cart:account_login' %}" title="Sign In">
       <i class="fa-solid fa-right-to-bracket"></i>
       Sign In
     </a>
@@ -59,9 +59,10 @@
       <a href="{% url 'store:product_list' %}">Products</a>
       {% if user.is_authenticated %}
         <a href="{% url 'user:profile_detail' %}">Profile</a>
-        <a href="{% url 'account_logout' %}">Logout</a>
+        <a href="{% url 'cart:account_logout' %}">Logout</a>
       {% else %}
-        <a href="{% url 'account_login' %}">Login</a>
+        <a href="{% url 'cart:account_login' %}">Login</a>
+        <a href="{% url 'cart:account_signup' %}">Sign Up</a>
       {% endif %}
       {% if user.is_staff %}
         <a href="{% url 'admin:index' %}">Admin Panel</a>
