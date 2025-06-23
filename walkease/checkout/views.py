@@ -3,6 +3,7 @@
 import stripe
 from django.conf import settings
 from django.shortcuts import render
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
@@ -15,15 +16,22 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 from django.shortcuts import render
 
+@login_required
 def checkout(request):
-    # … your existing code …
-    success_path = reverse('checkout:success')  # -> '/checkout/success/'
-    success_url  = request.build_absolute_uri(success_path)
-    return render(request, "checkout/checkout.html", {
-      # …,
-      "payment_success_url": success_url,
-    })
+    # 1) Load the user’s cart items & compute total
+    cart_items = CartItem.objects.filter(user=request.user)
+    cart_total = sum(item.product.price * item.quantity for item in cart_items)
 
+    # 2) Build a full URL for Stripe to redirect to on success
+    success_url = request.build_absolute_uri(reverse('checkout:success'))
+
+    # 3) Render your checkout template
+    return render(request, "checkout/checkout.html", {
+        "cart_items":        cart_items,
+        "cart_total":        cart_total,
+        "stripe_public_key": settings.STRIPE_PUBLIC_KEY,
+        "payment_success_url": success_url,
+    })
 
 @login_required
 @csrf_exempt

@@ -1,39 +1,67 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Checkout — Walkease</title>
-{% load static %}
+  {% load static %}
   <link rel="stylesheet" href="{% static 'checkout/css/style.css' %}">
 
-  <!-- 1) Stripe.js -->
+  {# 1) Load Stripe.js once #}
   <script src="https://js.stripe.com/v3/"></script>
 
-  <!-- 2) Inject your keys & URLs for the JS -->
+  {# 2) Expose your keys & URLs for the client code #}
   <script>
- window.stripePublicKey   = "{{ stripe_public_key }}";
-  window.paymentIntentUrl  = "{% url 'checkout:create_payment_intent' %}";
-  window.paymentSuccessUrl = "{{ payment_success_url }}";
-    console.log("🔑 stripePublicKey:", window.stripePublicKey);
-    console.log("🔗 paymentIntentUrl:", window.paymentIntentUrl);
-    console.log("✅ paymentSuccessUrl:", window.paymentSuccessUrl);
+    window.stripePublicKey   = "{{ stripe_public_key }}";  
+    window.paymentIntentUrl  = "{% url 'checkout:create_payment_intent' %}";
+    window.paymentSuccessUrl = "{{ payment_success_url }}";    // absolute URL from the view
+    console.log("🔑 stripePublicKey:", stripePublicKey);
+    console.log("🔗 paymentIntentUrl:", paymentIntentUrl);
+    console.log("✅ paymentSuccessUrl:", paymentSuccessUrl);
   </script>
 </head>
+
 <body>
-  <header>…</header>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="{% url 'store:index' %}">Home</a></li>
+        <li><a href="{% url 'cart:view_cart' %}">Cart</a></li>
+        <li><a href="{% url 'user:profile_detail' %}">Profile</a></li>
+      </ul>
+    </nav>
+  </header>
 
   <main class="checkout-container">
     <h1>Checkout</h1>
 
-    <section class="order-summary">…</section>
+    <!-- Order Summary -->
+    <section class="order-summary">
+      <h2>Order Summary</h2>
+      {% if cart_items %}
+        <ul>
+          {% for item in cart_items %}
+            <li>
+              <span class="product-title">{{ item.product.name }}</span>
+              <span class="product-quantity">× {{ item.quantity }}</span>
+              <span class="product-price">£{{ item.total_price }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+        <p class="cart-total"><strong>Total: </strong>£{{ cart_total|floatformat:2 }}</p>
+      {% else %}
+        <p>Your cart is currently empty.</p>
+      {% endif %}
+    </section>
 
+    <!-- Payment Form -->
     <section class="payment-details">
       <h2>Payment Information</h2>
       <form id="payment-form">
         {% csrf_token %}
-        <div id="payment-element" style="min-height:100px; margin-bottom:1rem;"></div>
+        <div id="payment-element" style="min-height:100px; margin-bottom:1rem;">
+          <!-- Stripe Elements will mount here -->
+        </div>
         <button type="submit" id="submit" class="btn-submit">
           Pay £{{ cart_total|floatformat:2 }}
         </button>
@@ -42,9 +70,11 @@
     </section>
   </main>
 
-  <footer>…</footer>
+  <footer>
+    <p>&copy; {% now "Y" %} Walkease. All rights reserved.</p>
+  </footer>
 
-  <!-- 3) Your Stripe logic -->
+  {# 3) Load your custom Stripe logic #}
   <script src="{% static 'checkout/js/script.js' %}"></script>
 </body>
 </html>
