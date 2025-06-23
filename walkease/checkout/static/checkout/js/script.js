@@ -1,29 +1,29 @@
 // static/checkout/js/script.js
 
-// 0) Initialize Stripe with the publishable key your template injected
+// 0) Initialize Stripe with the correct constructor
 const stripe     = Stripe(window.stripePublicKey);
 const intentUrl  = window.paymentIntentUrl;
 const successUrl = window.paymentSuccessUrl;
 
-// 1) Helper to read Django’s CSRF token from cookies
+// 1) CSRF helper for Django
 function getCookie(name) {
-  let cookieValue = null;
-  document.cookie.split(';').forEach(c => {
-    const [k, v] = c.trim().split('=');
-    if (k === name) cookieValue = decodeURIComponent(v);
+  let value = null;
+  document.cookie.split(";").forEach(cookie => {
+    const [k, v] = cookie.trim().split("=");
+    if (k === name) value = decodeURIComponent(v);
   });
-  return cookieValue;
+  return value;
 }
-const csrftoken = getCookie('csrftoken');
+const csrftoken = getCookie("csrftoken");
 
-// 2) Ask your backend to create a PaymentIntent
+// 2) Fetch a client_secret from your backend
 async function createPaymentIntent() {
   const resp = await fetch(intentUrl, {
-    method: 'POST',
-    credentials: 'same-origin',   // send cookies, including CSRF
+    method: "POST",
+    credentials: "same-origin",
     headers: {
-      'Content-Type': 'application/json',
-      'X-CSRFToken': csrftoken
+      "Content-Type": "application/json",
+      "X-CSRFToken": csrftoken
     }
   });
   if (!resp.ok) {
@@ -33,41 +33,41 @@ async function createPaymentIntent() {
   return clientSecret;
 }
 
-// 3) Main entry point: run after the DOM is ready
+// 3) Main flow
 document.addEventListener("DOMContentLoaded", async () => {
+  console.log("🚀 Initializing payment flow…");
+
   let clientSecret;
   try {
     clientSecret = await createPaymentIntent();
+    console.log("🔒 clientSecret:", clientSecret);
   } catch (err) {
     console.error(err);
-    document.getElementById('payment-message').textContent = err.message;
+    document.getElementById("payment-message").textContent = err.message;
     return;
   }
 
-  // 4) Initialize Stripe Elements with the client secret
+  // 4) Set up Stripe Elements
   const elements = stripe.elements({ clientSecret });
+  const paymentEl = elements.create("payment");
+  paymentEl.mount("#payment-element");
 
-  // 5) Mount the all-in-one Payment Element
-  const paymentElement = elements.create('payment');
-  paymentElement.mount('#payment-element');
-
-  // 6) Handle your form submission
-  const form = document.getElementById('payment-form');
-  form.addEventListener('submit', async e => {
+  // 5) Handle form submit
+  const form = document.getElementById("payment-form");
+  form.addEventListener("submit", async e => {
     e.preventDefault();
-    document.getElementById('submit').disabled = true;
+    document.getElementById("submit").disabled = true;
 
     const { error } = await stripe.confirmPayment({
       elements,
-      confirmParams: {
-        return_url: successUrl
-      }
+      confirmParams: { return_url: successUrl }
     });
 
     if (error) {
-      document.getElementById('payment-message').textContent = error.message;
-      document.getElementById('submit').disabled = false;
+      console.error("Payment failed:", error);
+      document.getElementById("payment-message").textContent = error.message;
+      document.getElementById("submit").disabled = false;
     }
-    // On success, Stripe.js automatically redirects to return_url
+    // On success: Stripe.js will auto-redirect to return_url
   });
 });
