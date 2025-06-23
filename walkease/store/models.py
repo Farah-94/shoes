@@ -81,6 +81,7 @@ class Review(models.Model):
                  )
     rating     = models.IntegerField(choices=RATING_CHOICES)
     comment    = models.TextField()
+    display    = models.BooleanField(default=False)  # ✅ Add this field
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

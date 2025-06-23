@@ -48,7 +48,7 @@ def buy_product(request, product_id):
     """
     product = get_object_or_404(Product, id=product_id)
 
-    # --- 1) Add to cart logic ---
+    # --- Add to cart logic ---
     if request.method == "POST" and request.POST.get("add_to_cart"):
         quantity = request.POST.get("quantity", 1)
         try:
@@ -60,7 +60,6 @@ def buy_product(request, product_id):
         except (ValueError, ValidationError) as e:
             return HttpResponse(str(e), status=400)
 
-        # Create an OrderItem, then attach it to an Order with status "Cart"
         item = OrderItem.objects.create(
             product=product,
             quantity=quantity,
@@ -76,24 +75,24 @@ def buy_product(request, product_id):
         order.save()
         return redirect("cart:view_cart")
 
-    # --- 2) Review logic ---
+    # --- Review submission logic ---
     review_form = ReviewForm()
     if request.method == "POST" and request.POST.get("submit_review"):
         review_form = ReviewForm(request.POST)
         if review_form.is_valid():
             review = review_form.save(commit=False)
             review.product = product
-            review.user    = request.user
+            review.user = request.user
+            review.display = review_form.cleaned_data.get("display", False)  # ✅ Store checkbox value
             review.save()
             return redirect("store:buy_product", product_id=product.id)
 
-    # GET or invalid POST – render the page with context
+    # --- Render the page ---
     return render(request, "store/buy_product.html", {
         "product":     product,
-        "reviews":     product.reviews.all(),  # using related_name="reviews" on Review model
+        "reviews":     product.reviews.filter(display=True).order_by("-created_at"),  # ✅ Filter displayed reviews
         "review_form": review_form,
     })
-
 
 def contact(request):
     """
