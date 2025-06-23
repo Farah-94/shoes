@@ -95,56 +95,61 @@
     View Cart
   </a>
 
-  <!-- REVIEWS -->
-  <div class="reviews-section">
-    <h2>Customer Reviews</h2>
-    {% if product.reviews.all %}
-      {% for review in product.reviews.all %}
-        <div class="review">
-          <p>
-            <strong>{{ review.user.username|default:"Anonymous" }}</strong>
-             — {{ review.created_at|date:"F j, Y, H:i" }}
-          </p>
-          <p>Rating: {{ review.rating }} / 5</p>
-          <p>{{ review.comment }}</p>
-        </div>
-      {% endfor %}
-    {% else %}
-      <p>No reviews yet. Be the first to review this product!</p>
-    {% endif %}
-  </div>
+<!-- REVIEWS -->
+<div class="reviews-section">
+  <h2>Customer Reviews</h2>
+  {% if reviews %}
+    {% for review in reviews %}
+      <div class="review">
+        <p>
+          <strong>{{ review.user.username|default:"Anonymous" }}</strong>
+           — {{ review.created_at|date:"F j, Y, H:i" }}
+        </p>
+        <p>Rating: {{ review.rating }} / 5</p>
+        <p>{{ review.comment }}</p>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>No reviews yet. Be the first to review this product!</p>
+  {% endif %}
+</div>
 
-  <!-- LEAVE A REVIEW -->
-  <div class="review-form-section">
-    <h2>Leave a Review</h2>
-    {% if user.is_authenticated %}
-      <form method="post">
-        {% csrf_token %}
-        {{ review_form.non_field_errors }}
-        <div class="form-field">
-          {{ review_form.rating.label_tag }}<br />
-          {{ review_form.rating }}<br />
-          {{ review_form.rating.errors }}
-        </div>
-        <div class="form-field">
-          {{ review_form.comment.label_tag }}<br />
-          {{ review_form.comment }}<br />
-          {{ review_form.comment.errors }}
-        </div>
-        <button type="submit" name="submit_review">
-          Submit Review
-        </button>
-      </form>
-    {% else %}
-      <p>
-        Please
-        <a href="{% url 'account_login' %}?next={{ request.path }}">
-          sign in
-        </a>
-        to leave a review.
-      </p>
-    {% endif %}
-  </div>
+<!-- LEAVE A REVIEW -->
+<div class="review-form-section">
+  <h2>Leave a Review</h2>
+  {% if user.is_authenticated %}
+    <form method="post">
+      {% csrf_token %}
+      {{ review_form.non_field_errors }}
+      <div class="form-field">
+        {{ review_form.rating.label_tag }}<br />
+        {{ review_form.rating }}<br />
+        {{ review_form.rating.errors }}
+      </div>
+      <div class="form-field">
+        {{ review_form.comment.label_tag }}<br />
+        {{ review_form.comment }}<br />
+        {{ review_form.comment.errors }}
+      </div>
+      <div class="form-field">
+        {{ review_form.display.label_tag }}<br />
+        {{ review_form.display }}<br />
+        {{ review_form.display.errors }}
+      </div>
+      <button type="submit" name="submit_review">
+        Submit Review
+      </button>
+    </form>
+  {% else %}
+    <p>
+      Please
+      <a href="{% url 'account_login' %}?next={{ request.path }}">
+        sign in
+      </a>
+      to leave a review.
+    </p>
+  {% endif %}
+</div>
 
   <!-- Slider & Zoom JS -->
 <script src="/static/store/js/script.js" defer></script>
