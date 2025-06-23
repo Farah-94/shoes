@@ -18,19 +18,19 @@ from django.shortcuts import render
 
 @login_required
 def checkout(request):
-    # 1) Load the user’s cart items & compute total
     cart_items = CartItem.objects.filter(user=request.user)
-    cart_total = sum(item.product.price * item.quantity for item in cart_items)
+    cart_total = sum(i.product.price * i.quantity for i in cart_items)
 
-    # 2) Build a full URL for Stripe to redirect to on success
-    success_url = request.build_absolute_uri(reverse('checkout:success'))
+    # Build the full URL Stripe requires:
+    success_url = request.build_absolute_uri(
+        reverse('checkout:success')            # -> "/checkout/success/"
+    )                                          # -> "https://walkease-app-…/checkout/success/"
 
-    # 3) Render your checkout template
     return render(request, "checkout/checkout.html", {
-        "cart_items":        cart_items,
-        "cart_total":        cart_total,
-        "stripe_public_key": settings.STRIPE_PUBLIC_KEY,
-        "payment_success_url": success_url,
+        "cart_items":         cart_items,
+        "cart_total":         cart_total,
+        "stripe_public_key":  settings.STRIPE_PUBLIC_KEY,
+        "payment_success_url": success_url,      # ← pass it into the template
     })
 
 @login_required

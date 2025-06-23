@@ -12,13 +12,12 @@
 
   {# 2) Expose your keys & URLs for the client code #}
   <script>
-    window.stripePublicKey   = "{{ stripe_public_key }}";  
-    window.paymentIntentUrl  = "{% url 'checkout:create_payment_intent' %}";
-    window.paymentSuccessUrl = "{{ payment_success_url }}";    // absolute URL from the view
-    console.log("🔑 stripePublicKey:", stripePublicKey);
-    console.log("🔗 paymentIntentUrl:", paymentIntentUrl);
-    console.log("✅ paymentSuccessUrl:", paymentSuccessUrl);
-  </script>
+  window.stripePublicKey   = "{{ stripe_public_key }}";
+  window.paymentIntentUrl  = "{% url 'checkout:create_payment_intent' %}";
+  // Stripe.confirmPayment needs a fully-qualified URL:
+  window.paymentSuccessUrl = "{{ payment_success_url }}";
+  console.log("✅ return_url:", window.paymentSuccessUrl);
+</script>
 </head>
 
 <body>
