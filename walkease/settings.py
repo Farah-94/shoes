@@ -63,10 +63,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'walkease.urls'
 
+# settings.py
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [ BASE_DIR / 'templates' ],   
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,6 +79,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'walkease.wsgi.application'
 
@@ -125,8 +128,9 @@ AUTHENTICATION_BACKENDS = [
 
 ACCOUNT_ADAPTER = "walkease.store.adapters.CustomAccountAdapter"  
 
-LOGIN_URL = "/cart/signin"
-LOGIN_REDIRECT_URL = "/cart/view/" # Redirect users after login
+LOGIN_URL         = "cart:account_login"
+LOGOUT_REDIRECT_URL = "cart:account_login"
+ # Redirect users after login
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
 

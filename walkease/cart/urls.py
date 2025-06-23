@@ -1,5 +1,8 @@
+# walkease/cart/urls.py
+
 from django.urls import path
-from . import views
+from allauth.account import views as a_views
+from . import views  # your cart_view, add_to_cart, etc.
 
 app_name = "cart"
 
@@ -8,7 +11,23 @@ urlpatterns = [
     path("add/<int:product_id>/", views.add_to_cart, name="add_to_cart"),
     path("update/<int:item_id>/<str:action>/", views.update_cart, name="update_cart"),
     path("remove/<int:item_id>/", views.remove_from_cart, name="remove_from_cart"),
-    path("signup/", views.signup, name="signup"),
-    path("signin/", views.signin, name="signin"),
-    path("logout/", views.logout_view, name="logout"),
+
+    # ————————————————
+    # hook Allauth here for signup / signin / signout
+    # ————————————————
+    path(
+        "signup/",
+        a_views.SignupView.as_view(template_name="cart/signup.html"),
+        name="account_signup",       # must be account_signup
+    ),
+    path(
+        "signin/",
+        a_views.LoginView.as_view(template_name="cart/signin.html"),
+        name="account_login",        # must be account_login
+    ),
+    path(
+        "logout/",
+        a_views.LogoutView.as_view(template_name="cart/signout.html"),
+        name="account_logout",       # must be account_logout
+    ),
 ]
