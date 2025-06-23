@@ -13,9 +13,9 @@
 
   <!-- 2) Inject your keys & URLs for the JS -->
   <script>
-    window.stripePublicKey   = "{{ stripe_public_key }}";
-    window.paymentIntentUrl  = "{% url 'checkout:create_payment_intent' %}";
-    window.paymentSuccessUrl = "{% url 'checkout:success' %}";
+ window.stripePublicKey   = "{{ stripe_public_key }}";
+  window.paymentIntentUrl  = "{% url 'checkout:create_payment_intent' %}";
+  window.paymentSuccessUrl = "{{ payment_success_url }}";
     console.log("🔑 stripePublicKey:", window.stripePublicKey);
     console.log("🔗 paymentIntentUrl:", window.paymentIntentUrl);
     console.log("✅ paymentSuccessUrl:", window.paymentSuccessUrl);

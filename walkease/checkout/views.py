@@ -13,19 +13,15 @@ from walkease.cart.models import CartItem
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
-@login_required
-def checkout(request):
-    """
-    Renders the checkout page with the user’s cart items,
-    cart total, and the Stripe public key for client-side.
-    """
-    cart_items = CartItem.objects.filter(user=request.user)
-    cart_total = sum(item.product.price * item.quantity for item in cart_items)
+from django.shortcuts import render
 
-    return render(request, 'checkout/checkout.html', {
-        'cart_items':        cart_items,
-        'cart_total':        cart_total,
-        'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
+def checkout(request):
+    # … your existing code …
+    success_path = reverse('checkout:success')  # -> '/checkout/success/'
+    success_url  = request.build_absolute_uri(success_path)
+    return render(request, "checkout/checkout.html", {
+      # …,
+      "payment_success_url": success_url,
     })
 
 

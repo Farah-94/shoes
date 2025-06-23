@@ -1,11 +1,14 @@
 // static/checkout/js/script.js
 
-// 0) Initialize Stripe with the correct constructor
-const stripe     = Stripe(window.stripePublicKey);
-const intentUrl  = window.paymentIntentUrl;
-const successUrl = window.paymentSuccessUrl;
+// 0) Initialize Stripe with your publishable key
+const stripe    = Stripe(window.stripePublicKey);
+const intentUrl = window.paymentIntentUrl;
 
-// 1) CSRF helper for Django
+// 1) Build a full return_url for Stripe (must include protocol+host)
+const rawPath    = window.paymentSuccessUrl;               // e.g. "/checkout/success/"
+const successUrl = window.location.origin + rawPath;       // e.g. "https://yourdomain.com/checkout/success/"
+
+// 2) CSRF helper for Django
 function getCookie(name) {
   let value = null;
   document.cookie.split(";").forEach(cookie => {
@@ -16,7 +19,7 @@ function getCookie(name) {
 }
 const csrftoken = getCookie("csrftoken");
 
-// 2) Fetch a client_secret from your backend
+// 3) Fetch a client_secret from your backend
 async function createPaymentIntent() {
   const resp = await fetch(intentUrl, {
     method: "POST",
@@ -33,7 +36,7 @@ async function createPaymentIntent() {
   return clientSecret;
 }
 
-// 3) Main flow
+// 4) Main flow
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("🚀 Initializing payment flow…");
 
@@ -47,12 +50,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  // 4) Set up Stripe Elements
+  // 5) Set up Stripe Elements
   const elements = stripe.elements({ clientSecret });
   const paymentEl = elements.create("payment");
   paymentEl.mount("#payment-element");
 
-  // 5) Handle form submit
+  // 6) Handle form submission
   const form = document.getElementById("payment-form");
   form.addEventListener("submit", async e => {
     e.preventDefault();
@@ -68,6 +71,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       document.getElementById("payment-message").textContent = error.message;
       document.getElementById("submit").disabled = false;
     }
-    // On success: Stripe.js will auto-redirect to return_url
+    // On success, Stripe.js will auto-redirect to successUrl
   });
 });
