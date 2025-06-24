@@ -3,7 +3,7 @@
 from django.urls import path
 from allauth.account import views as a_views
 from . import views  # your cart_view, add_to_cart, etc.
-from allauth.account.views import LogoutView
+from django.contrib.auth.views import LogoutView as DjangoLogoutView
 
 app_name = "cart"
 
@@ -28,7 +28,7 @@ urlpatterns = [
     ),
     path(
     "logout/",
-    LogoutView.as_view(
+      DjangoLogoutView.as_view(
       template_name="cart/signout.html",
       next_page="cart:account_login"      # ← redirect here after GET
     ),
