@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.http import HttpResponse
 from django.conf import settings
-from walkease.store.models import Product, OrderItem, Review
+from walkease.store.models import Order, Product,Category, OrderItem, Review
 from .forms import ReviewForm
 
 def index(request):
