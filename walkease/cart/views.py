@@ -94,7 +94,7 @@ def cart_login_view(request, *args, **kwargs):
 
 def cart_logout_view(request, *args, **kwargs):
     """
-    Delegate to Allauth’s LogoutView but render cart/signout.html.
+    Delegate to Allauth’s LogoutView but render cart/signup.html.
     """
-    view = LogoutView.as_view(template_name="cart/signout.html")
+    view = LogoutView.as_view(template_name="cart/signup.html")
     return view(request, *args, **kwargs)
