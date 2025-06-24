@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% load static %}
+  <title>Signed Out</title>
+  <link rel="stylesheet" href="{% static 'cart/css/style.css' %}">
+</head>
+<body>
+  <header>
+    <h1>You’re now signed out</h1>
+  </header>
+
+  <main class="signout-container">
+    {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          <p class="{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <p><a href="{% url 'cart:account_login' %}">Sign In again</a></p>
+    <p><a href="{% url 'cart:account_signup' %}">Create a new account</a></p>
+  </main>
+</body>
+</html>
