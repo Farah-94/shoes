@@ -132,7 +132,7 @@ LOGIN_URL         = "cart:account_login"
 LOGOUT_REDIRECT_URL = "cart:account_login"
  # Redirect users after login
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
-
+ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_LOGOUT_REDIRECT_URL = "cart:account_login"
 
 # Session settings for production
