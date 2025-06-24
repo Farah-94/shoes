@@ -26,12 +26,9 @@ urlpatterns = [
         a_views.LoginView.as_view(template_name="cart/signin.html"),
         name="account_login",        # must be account_login
     ),
-    path(
-    "logout/",
-      DjangoLogoutView.as_view(
-      template_name="cart/signout.html",
-      next_page="cart:account_login"      # ← redirect here after GET
+  path(
+        "logout/",
+        views.cart_logout_view,    
+        name="account_logout",
     ),
-    name="account_logout",
-  ),
 ]
