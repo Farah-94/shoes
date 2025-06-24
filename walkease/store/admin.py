@@ -66,10 +66,10 @@ class ProductAdminForm(forms.ModelForm):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     form         = ProductAdminForm
-    list_display = ("name", "category", "price", "stock")
+    list_display = ("name", "price", "stock")
     list_editable= ("price", "stock")
     search_fields= ("name", "description")
-    list_filter  = ("category", "price", "stock")
+    list_filter  = ( "price", "stock")
 
     inlines = [ProductImageInline]
 
