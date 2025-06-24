@@ -15,7 +15,7 @@
 
 <body>
 
-  <header>
+   <header>
     <div class="logo">
       <a href="{% url 'store:product_list' %}">
         <img src="{% static 'store/gallery/logo.png' %}" alt="WalkEase Logo">
@@ -23,51 +23,49 @@
     </div>
 
     <div class="header-right">
-    <!-- Always show Cart -->
-    <a href="{% url 'cart:view_cart' %}">
-      <i class="fa-solid fa-cart-shopping"></i> Cart
-    </a>
-
-    {% if user.is_authenticated %}
-      <!-- Signed in: show Profile link only at top -->
-      <a href="{% url 'user:profile_detail' %}">
-        <i class="fa-solid fa-user"></i> Profile
+      <!-- Always show Cart -->
+      <a href="{% url 'cart:view_cart' %}">
+        <i class="fa-solid fa-cart-shopping"></i> Cart
       </a>
-    {% else %}
-      <!-- Anonymous: show Sign In link only at top -->
-      <a href="{% url 'cart:account_login' %}">
-        <i class="fa-solid fa-right-to-bracket"></i> Sign In
-      </a>
-    {% endif %}
 
-    <!-- Menu Dropdown -->
-    <div class="menu-container">
-      <button id="menu-button" class="menu-button">
-        Menu <i class="fa-solid fa-bars"></i>
-      </button>
-      <div id="menu-dropdown" class="dropdown-content">
-        <a href="{% url 'store:product_list' %}">Products</a>
+      {% if user.is_authenticated %}
+        <!-- Signed in: show Profile link only at top -->
+        <a href="{% url 'user:profile_detail' %}">
+          <i class="fa-solid fa-user"></i> Profile
+        </a>
+      {% else %}
+        <!-- Anonymous: show Sign In link only at top -->
+        <a href="{% url 'cart:account_login' %}">
+          <i class="fa-solid fa-right-to-bracket"></i> Sign In
+        </a>
+      {% endif %}
 
-        {% if user.is_authenticated %}
-          <!-- Signed in: Profile + Sign Out inside menu -->
-          <a href="{% url 'user:profile_detail' %}">Profile</a>
-          <a href="{% url 'cart:account_logout' %}">Sign Out</a>
-        {% else %}
-          <!-- Anonymous: Sign In inside menu -->
-          <a href="{% url 'cart:account_login' %}">Sign In</a>
-        {% endif %}
+      <!-- Menu Dropdown -->
+      <div class="menu-container">
+        <button id="menu-button" class="menu-button">
+          Menu <i class="fa-solid fa-bars"></i>
+        </button>
+        <div id="menu-dropdown" class="dropdown-content">
+          <a href="{% url 'store:product_list' %}">Products</a>
 
-        {% if user.is_staff %}
-          <a href="{% url 'admin:index' %}">Admin Panel</a>
-        {% endif %}
+          {% if user.is_authenticated %}
+            <!-- Signed in: Profile + Sign Out inside menu -->
+            <a href="{% url 'user:profile_detail' %}">Profile</a>
+            <a href="{% url 'cart:account_logout' %}">Sign Out</a>
+          {% else %}
+            <!-- Anonymous: Sign In inside menu -->
+            <a href="{% url 'cart:account_login' %}">Sign In</a>
+          {% endif %}
 
-        <a href="#about-us">About Us</a>
-        <a href="#contact-us">Contact Us</a>
+          {% if user.is_staff %}
+            <a href="{% url 'admin:index' %}">Admin Panel</a>
+          {% endif %}
+          <a href="#about-us">About Us</a>
+          <a href="#contact-us">Contact Us</a>
+        </div>
       </div>
     </div>
-  </div>
   </header>
-
 
   <div class="slider-container">
     <div class="slide active">
