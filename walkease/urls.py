@@ -14,7 +14,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-
+# walkease/urls.py
+# walkease/urls.py
 
 from django.contrib import admin
 from django.urls import path, include
@@ -22,14 +23,19 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-  path('admin/', admin.site.urls),
-  path('cart/',     include('cart.urls',    namespace='cart')),
-  path('checkout/', include('checkout.urls',namespace='checkout')),
-  path('user/',     include('user.urls',    namespace='user')),
-  path('',          include('store.urls',   namespace='store')),
-  path('accounts/', include('allauth.urls')),  # allauth last
-]
+    path("admin/", admin.site.urls),
 
+    # your cart-based auth & cart views:
+    path("cart/", include("walkease.cart.urls", namespace="cart")),
+
+    # Allauth’s built-in URLs for e.g. account settings, password reset, social logins, etc.
+    path("accounts/", include("allauth.urls")),
+
+    # your other apps…
+    path("user/",     include("walkease.user.urls",    namespace="user")),
+    path("",          include("walkease.store.urls",   namespace="store")),
+    path("checkout/", include("walkease.checkout.urls",namespace="checkout")),
+]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
