@@ -4,77 +4,72 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WalkEase Store</title>
   {% load static %}
-  <title>Store</title>
   <link rel="stylesheet" href="{% static 'store/css/style.css' %}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    integrity="sha512-gtdU5cJE6L43H4icMpuP6loDmoPHwY7+Aa6Mgx8k5KVoo0FI9wqxY5y1tZxCRc0NwXmyov2P7T8NIKj5x4Uwg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-gtdU5cJE6L43H4icMpuP6loDmoPHwY7+Aa6Mgx8k5KVoo0FI9wqxY5y1tZxCRc0NwXmyov2P7T8NIKj5x4Uwg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
 
-
   <header>
-    <!-- Logo section -->
     <div class="logo">
-      <img src="{% static 'store/gallery/logo.png' %}" alt="Logo">
+      <a href="{% url 'store:product_list' %}">
+        <img src="{% static 'store/gallery/logo.png' %}" alt="WalkEase Logo">
+      </a>
     </div>
 
-    <!-- Header Right: Cart, Sign In/Profile, and Menu Dropdown -->
-    <!-- Inside header-right or dropdown-content, replace with this block: -->
-<div class="header-right">
-  <!-- Cart Link -->
-  <a href="{% url 'cart:view_cart' %}" title="View Cart">
-    <i class="fa-solid fa-cart-shopping"></i>
-    Cart
-  </a>
+    <div class="header-right">
+      <a href="{% url 'cart:view_cart' %}" title="View Cart">
+        <i class="fa-solid fa-cart-shopping"></i>
+        Cart
+      </a>
 
-  {% if user.is_authenticated %}
-    <!-- Profile Link -->
-    <a href="{% url 'user:profile_detail' %}" title="Profile">
-      <i class="fa-solid fa-user"></i>
-      Profile
-    </a>
-
-    <!-- Logout Link: now uses cart:account_logout -->
-    <a href="{% url 'cart:account_logout' %}" title="Logout">
-      <i class="fa-solid fa-arrow-right-from-bracket"></i>
-      Logout
-    </a>
-  {% else %}
-    <!-- Sign In Link: now uses cart:account_login -->
-    <a href="{% url 'cart:account_login' %}" title="Sign In">
-      <i class="fa-solid fa-right-to-bracket"></i>
-      Sign In
-    </a>
-  {% endif %}
-
-  <!-- Menu Dropdown -->
-  <div class="menu-container">
-    <button id="menu-button" class="menu-button">
-      Menu <i class="fa-solid fa-bars"></i>
-    </button>
-    <div id="menu-dropdown" class="dropdown-content">
-      <a href="{% url 'store:product_list' %}">Products</a>
       {% if user.is_authenticated %}
-        <a href="{% url 'user:profile_detail' %}">Profile</a>
-        <a href="{% url 'cart:account_logout' %}">Logout</a>
+        <a href="{% url 'user:profile_detail' %}" title="Profile">
+          <i class="fa-solid fa-user"></i>
+          Profile
+        </a>
+        <a href="{% url 'cart:account_logout' %}" title="Logout">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          Logout
+        </a>
       {% else %}
-        <a href="{% url 'cart:account_login' %}">Login</a>
-        <a href="{% url 'cart:account_signup' %}">Sign Up</a>
+        <a href="{% url 'cart:account_login' %}" title="Sign In">
+          <i class="fa-solid fa-right-to-bracket"></i>
+          Sign In
+        </a>
+        <a href="{% url 'cart:account_signup' %}" title="Sign Up">
+          <i class="fa-solid fa-user-plus"></i>
+          Sign Up
+        </a>
       {% endif %}
-      {% if user.is_staff %}
-        <a href="{% url 'admin:index' %}">Admin Panel</a>
-      {% endif %}
-      <a href="#about-us">About Us</a>
-      <a href="#contact-us">Contact Us</a>
+
+      <div class="menu-container">
+        <button id="menu-button" class="menu-button">
+          Menu <i class="fa-solid fa-bars"></i>
+        </button>
+        <div id="menu-dropdown" class="dropdown-content">
+          <a href="{% url 'store:product_list' %}">Products</a>
+          {% if user.is_authenticated %}
+            <a href="{% url 'user:profile_detail' %}">Profile</a>
+            <a href="{% url 'cart:account_logout' %}">Logout</a>
+          {% else %}
+            <a href="{% url 'cart:account_login' %}">Sign In</a>
+            <a href="{% url 'cart:account_signup' %}">Sign Up</a>
+          {% endif %}
+          {% if user.is_staff %}
+            <a href="{% url 'admin:index' %}">Admin Panel</a>
+          {% endif %}
+          <a href="#about-us">About Us</a>
+          <a href="#contact-us">Contact Us</a>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-
   </header>
-
 
 
   <div class="slider-container">
@@ -90,38 +85,30 @@
   </div>
 
   <section class="big-image">
-
     <img class="back-image" src="{% static 'store/gallery/webfront.png' %}" alt="Featured Product">
   </section>
 
 
-  <!-- About Us Section -->
   <section id="about-us" class="about-us-section">
     <div class="container">
       <h2>About Us</h2>
       <p>
-        Welcome to Our Store! We are committed to delivering high-quality products with an excellent customer
-        experience.
-        Our mission is to provide the best deals, innovative products, and a shopping environment that caters to your
-        unique needs.
+        Welcome to WalkEase! We’re committed to delivering high-quality shoes with an excellent customer experience.
+        Our mission is to provide the best deals, innovative designs, and a shopping environment tailored to your needs.
       </p>
     </div>
   </section>
 
-  <!-- Contact Us Section -->
   <section id="contact-us" class="contact-us-section">
     <div class="container">
       <h2>Contact Us</h2>
-      <p>
-        Have questions or need more information? Feel free to reach out to us via any of the contact methods below.
-      </p>
+      <p>Have questions or need more information? Reach out via any of the methods below.</p>
       <ul class="contact-details">
-        <li>Email: <a href="walkease:info@example.com">info@example.com</a></li>
+        <li>Email: <a href="mailto:info@example.com">info@example.com</a></li>
         <li>Phone: +1 (234) 567 890</li>
-        <li>Address: 123 Main Street, London, Uk</li>
+        <li>Address: 123 Main Street, London, UK</li>
       </ul>
 
-      <!-- Optional: A Simple Contact Form -->
       <form id="contactForm" action="https://formspree.io/f/mdkzewbw" method="POST" class="contact-form">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required>
@@ -138,16 +125,12 @@
   </section>
 
 
-
-
-
-
-
   <footer>
-    <p>&copy; 2025 Your Store. All rights reserved.</p>
+    <p>&copy; 2025 WalkEase. All rights reserved.</p>
   </footer>
 
   <script src="{% static 'store/js/script.js' %}" defer></script>
 </body>
 
 </html>
+```
