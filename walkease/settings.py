@@ -128,12 +128,16 @@ AUTHENTICATION_BACKENDS = [
 
 ACCOUNT_ADAPTER = "walkease.store.adapters.CustomAccountAdapter"  
 
-LOGIN_URL         = "cart:account_login"
+LOGIN_URL = "cart:account_login"
+LOGIN_REDIRECT_URL = "store:home"  # 👈 where they go after login
 LOGOUT_REDIRECT_URL = "cart:account_login"
- # Redirect users after login
-MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
-ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_LOGOUT_REDIRECT_URL = "cart:account_login"
+ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_LOGIN_ON_SIGNUP = False  # 👈 don't auto-login after signup
+ACCOUNT_SIGNUP_REDIRECT_URL = "cart:account_login"  # 👈 go to sign-in page after registering
+MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
+
+
 
 # Session settings for production
 SESSION_COOKIE_SECURE = True
