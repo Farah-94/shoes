@@ -150,24 +150,3 @@ STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY', 'fallback_public_key')
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', 'fallback_secret_key')
 
 
-
-
-
-import os
-
-# Always safe in dev and tests
-if os.environ.get("DYNO"):  # you’re on Heroku
-    EMAIL_BACKEND        = "django.core.mail.backends.smtp.EmailBackend"
-    EMAIL_HOST           = os.environ["MAILGUN_SMTP_SERVER"]
-    EMAIL_PORT           = int(os.environ["MAILGUN_SMTP_PORT"])
-    EMAIL_HOST_USER      = os.environ["MAILGUN_SMTP_LOGIN"]
-    EMAIL_HOST_PASSWORD  = os.environ["MAILGUN_SMTP_PASSWORD"]
-    EMAIL_USE_TLS        = True
-    DEFAULT_FROM_EMAIL   = f"no-reply@{os.environ['MAILGUN_DOMAIN']}"
-    ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-    ACCOUNT_EMAIL_REQUIRED     = True
-else:
-    # local and CI/Test
-    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-    ACCOUNT_EMAIL_VERIFICATION = "none"
-    ACCOUNT_EMAIL_REQUIRED     = False
