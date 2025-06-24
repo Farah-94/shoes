@@ -138,6 +138,9 @@ ACCOUNT_SIGNUP_REDIRECT_URL = "cart:account_login"  # 👈 go to sign-in page af
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_REQUIRED = False
 
 # Session settings for production
 SESSION_COOKIE_SECURE = True
@@ -153,4 +156,13 @@ CSRF_TRUSTED_ORIGINS = [
 STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY', 'fallback_public_key')
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', 'fallback_secret_key')
 
+import os
+
+EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND")
+EMAIL_HOST = os.environ.get("EMAIL_HOST")
+EMAIL_PORT = int(os.environ.get("EMAIL_PORT", 587))
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS") == "True"
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
 
