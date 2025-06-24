@@ -140,7 +140,9 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 # Secure proxy header (useful on Heroku)
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
+CSRF_TRUSTED_ORIGINS = [
+    'https://walkease-app-de2170076d15.herokuapp.com',
+]
 
 
 STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY', 'fallback_public_key')
