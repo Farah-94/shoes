@@ -55,7 +55,6 @@
         {% else %}
           <!-- Anonymous: Sign In inside menu -->
           <a href="{% url 'cart:account_login' %}">Sign In</a>
-          <a href="{% url 'cart:account_signup' %}">Sign Up</a>
         {% endif %}
 
         {% if user.is_staff %}
